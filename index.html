@@ -28,10 +28,12 @@
             margin: 0; 
             display: flex; 
             justify-content: center; 
-            align-items: center; 
+            align-items: flex-start; /* 改為頂端對齊，避免內容過長時中間被切掉 */
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .card { 
@@ -44,7 +46,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
             text-align: center; 
             position: relative;
-            margin: 15px auto;
+            margin: 0 auto;
         }
 
         h1 { 
@@ -67,11 +69,11 @@
             letter-spacing: 4px; 
         }
 
-        /* 修正手機版切字問題：改為自動換行 */
+        /* 徹底修正手機版 ... 切字問題 */
         .option { 
             display: block; 
             width: 100%; 
-            padding: 0.9rem 1.1rem; 
+            padding: 1rem 1.1rem; 
             margin: 10px 0; 
             background: rgba(255,255,255,0.1); 
             border: 1px solid rgba(0, 242, 254, 0.3); 
@@ -82,7 +84,9 @@
             transition: 0.2s; 
             font-size: 0.95rem; 
             font-weight: 700;
-            white-space: normal; /* 讓文字可以正常換行 */
+            white-space: normal; /* 確保文字可換行 */
+            overflow: visible;   /* 移除隱藏 */
+            text-overflow: clip; /* 移除省略號 */
             line-height: 1.5;
             word-break: break-word;
         }
@@ -112,7 +116,7 @@
             align-items: center; 
             width: 100%; 
             overflow: visible; 
-            min-height: 280px;
+            min-height: 300px;
         }
         #radarChart { 
             max-width: 100%;
@@ -122,7 +126,7 @@
         .match-tag { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; color: var(--text-bright); font-weight: 900; }
         .match-tag b { color: var(--p1); font-family: 'Orbitron'; }
 
-        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1rem; border-radius: 14px; font-size: 1.1rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
+        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1.1rem; border-radius: 14px; font-size: 1.1rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
         .cta-btn:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
 
         .urgent-tag { background: var(--urgent); color: white; font-size: 0.75rem; padding: 5px 12px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 10px; animation: pulse 2s infinite; }
@@ -195,7 +199,7 @@
             🎁 領取專屬優惠碼並搶先卡位
         </button>
         
-        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:0.9rem; border:none; margin-top:10px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
+        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:1rem; border:none; margin-top:10px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
     </div>
 </div>
 
@@ -396,8 +400,8 @@
         ctx.scale(dpr, dpr);
 
         const centerX = size / 2, centerY = size / 2;
-        // 手機版縮小半徑，留更多空間給字體
-        const radius = size * (size < 340 ? 0.22 : 0.26); 
+        // 手機版自動縮小圖形，留更多空間給字體
+        const radius = size * (size < 340 ? 0.23 : 0.27); 
         const labels = ["創新直覺", "邏輯推理", "社交領導", "執行穩定", "因果洞察"];
         const values = [data.innovation, data.logic, data.leadership, data.stability, data.causal];
 
@@ -424,7 +428,7 @@
         ctx.fillStyle = "#ffffff"; ctx.font = `bold ${fontSize}px 'Noto Sans TC'`;
         for (let i = 0; i < 5; i++) {
             const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
-            const textDist = radius + (size < 340 ? 18 : 22); 
+            const textDist = radius + (size < 340 ? 18 : 24); 
             const tx = centerX + textDist * Math.cos(a);
             const ty = centerY + textDist * Math.sin(a);
             
@@ -446,7 +450,6 @@
         if (timerInterval) return;
         
         let targetTimestamp = localStorage.getItem('awakening_expiry_timestamp');
-        
         if (!targetTimestamp) {
             targetTimestamp = Date.now() + (TOTAL_TIME * 1000);
             localStorage.setItem('awakening_expiry_timestamp', targetTimestamp);
