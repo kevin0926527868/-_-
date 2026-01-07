@@ -18,6 +18,7 @@
             --urgent: #ff4757;
         }
 
+        /* 重設基礎樣式，優化手機觸控 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
         body { 
@@ -34,29 +35,29 @@
         }
 
         .card { 
-            width: 92%; 
+            width: 94%; 
             max-width: 500px; 
             background: rgba(15, 23, 42, 0.96); 
-            padding: 1.8rem; 
+            padding: 1.5rem; 
             border-radius: 24px; 
             border: 2px solid rgba(0, 242, 254, 0.4); 
             box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
             text-align: center; 
             position: relative;
-            margin: 20px auto;
+            margin: 15px auto;
         }
 
         h1 { 
-            font-size: 1.4rem; 
+            font-size: 1.3rem; 
             color: var(--text-bright); 
             margin-bottom: 1.2rem; 
-            letter-spacing: 1.5px; 
+            letter-spacing: 1.2px; 
             font-weight: 900;
             line-height: 1.4;
         }
 
         .mbti-code { 
-            font-size: clamp(2.5rem, 10vw, 3.2rem); 
+            font-size: clamp(2.2rem, 8vw, 3.2rem); 
             font-weight: 900; 
             background: linear-gradient(135deg, var(--p1), var(--accent)); 
             -webkit-background-clip: text; 
@@ -66,11 +67,12 @@
             letter-spacing: 4px; 
         }
 
+        /* 修正手機版切字問題：改為自動換行 */
         .option { 
             display: block; 
             width: 100%; 
-            padding: 1.1rem; 
-            margin: 12px 0; 
+            padding: 0.9rem 1.1rem; 
+            margin: 10px 0; 
             background: rgba(255,255,255,0.1); 
             border: 1px solid rgba(0, 242, 254, 0.3); 
             border-radius: 12px; 
@@ -78,62 +80,63 @@
             text-align: left; 
             cursor: pointer; 
             transition: 0.2s; 
-            font-size: 1rem; 
+            font-size: 0.95rem; 
             font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal; /* 讓文字可以正常換行 */
+            line-height: 1.5;
+            word-break: break-word;
         }
 
         .option:hover, .option:active { background: rgba(0, 242, 254, 0.15); border-color: var(--p1); }
         .option.selected { background: rgba(0, 242, 254, 0.25); border-color: var(--p1); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
 
-        .progress-bar { height: 8px; background: #1e293b; border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden; }
+        .progress-bar { height: 6px; background: #1e293b; border-radius: 3px; margin-bottom: 1.5rem; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: 0.4s; }
 
         .hidden { display: none !important; }
 
-        #processing { padding: 40px 0; }
+        #processing { padding: 30px 0; }
         .loading-text { color: var(--p1); font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; margin-bottom: 20px; display: block; }
-        .long-progress { height: 12px; background: #1e293b; border-radius: 6px; overflow: hidden; width: 85%; margin: 0 auto; }
+        .long-progress { height: 10px; background: #1e293b; border-radius: 5px; overflow: hidden; width: 85%; margin: 0 auto; }
         .long-progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: width 0.3s ease-out; }
 
-        .section-box { text-align: left; background: rgba(0,0,0,0.5); padding: 18px; border-radius: 16px; margin-top: 12px; border-left: 4px solid var(--accent); }
-        .section-label { color: var(--p1); font-size: 0.85rem; font-weight: 900; margin-bottom: 6px; display: block; font-family: 'Orbitron', sans-serif; }
-        .section-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-bright); }
+        .section-box { text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 16px; margin-top: 12px; border-left: 4px solid var(--accent); }
+        .section-label { color: var(--p1); font-size: 0.8rem; font-weight: 900; margin-bottom: 6px; display: block; font-family: 'Orbitron', sans-serif; }
+        .section-text { font-size: 0.9rem; line-height: 1.6; color: var(--text-bright); }
 
+        /* 圖表自適應設定 */
         .chart-container { 
-            margin: 10px auto; 
+            margin: 5px auto; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             width: 100%; 
             overflow: visible; 
-            min-height: 320px;
+            min-height: 280px;
         }
         #radarChart { 
             max-width: 100%;
             height: auto;
         }
 
-        .match-tag { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 10px; font-size: 0.85rem; color: var(--text-bright); font-weight: 900; }
+        .match-tag { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; color: var(--text-bright); font-weight: 900; }
         .match-tag b { color: var(--p1); font-family: 'Orbitron'; }
 
-        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1.2rem; border-radius: 14px; font-size: 1.15rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
+        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1rem; border-radius: 14px; font-size: 1.1rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
         .cta-btn:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
 
-        .urgent-tag { background: var(--urgent); color: white; font-size: 0.8rem; padding: 6px 16px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 10px; animation: pulse 2s infinite; }
+        .urgent-tag { background: var(--urgent); color: white; font-size: 0.75rem; padding: 5px 12px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 10px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        .social-toast { position: fixed; bottom: 30px; left: 20px; background: #1e293b; border: 2px solid var(--p1); padding: 14px 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 2000; transform: translateX(-250%); transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .social-toast.show { transform: translateX(0); }
-        .toast-avatar { width: 36px; height: 36px; background: var(--p1); border-radius: 50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:14px; flex-shrink: 0; }
-        .toast-body { color: var(--text-bright); font-size: 14px; line-height: 1.4; text-align: left; }
+        .social-toast { position: fixed; bottom: 20px; left: 10px; right: 10px; background: #1e293b; border: 2px solid var(--p1); padding: 12px; border-radius: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 2000; transform: translateY(200%); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .social-toast.show { transform: translateY(0); }
+        .toast-avatar { width: 32px; height: 32px; background: var(--p1); border-radius: 50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:12px; flex-shrink: 0; }
+        .toast-body { color: var(--text-bright); font-size: 13px; line-height: 1.3; text-align: left; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; justify-content: center; align-items: center; z-index: 3000; overflow-y: auto; }
-        .modal-content { background: linear-gradient(135deg, #881337, #4c0519); padding: 30px 25px 40px 25px; border-radius: 28px; border: 3px solid var(--gold); max-width: 450px; width: 92%; text-align: center; box-shadow: 0 0 60px rgba(249, 212, 35, 0.4); margin: 20px auto; }
-        .coupon-code { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--gold); font-weight: 900; letter-spacing: 1.5px; display: block; background: rgba(0,0,0,0.4); padding: 18px; margin: 15px 0; border-radius: 18px; border: 2px dashed var(--gold); }
-        .timer-banner { background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 10px; font-size: 0.85rem; color: #fff; margin-top: 10px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; justify-content: center; align-items: center; z-index: 3000; overflow-y: auto; padding: 15px; }
+        .modal-content { background: linear-gradient(135deg, #881337, #4c0519); padding: 25px 20px; border-radius: 24px; border: 3px solid var(--gold); max-width: 450px; width: 100%; text-align: center; box-shadow: 0 0 60px rgba(249, 212, 35, 0.4); }
+        .coupon-code { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--gold); font-weight: 900; letter-spacing: 1px; display: block; background: rgba(0,0,0,0.4); padding: 15px; margin: 15px 0; border-radius: 18px; border: 2px dashed var(--gold); word-break: break-all; }
+        .timer-banner { background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #fff; margin-top: 10px; }
         .timer-value { color: var(--gold); font-weight: 900; font-family: 'Orbitron'; }
     </style>
 </head>
@@ -141,19 +144,19 @@
 
 <div class="card" id="app">
     <div id="start">
-        <div style="color: var(--p1); font-weight: 900; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2.5px;">★ AWAKENING PROJECT ★</div>
+        <div style="color: var(--p1); font-weight: 900; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2.5px; font-size: 0.8rem;">★ AWAKENING PROJECT ★</div>
         <h1>轉生智慧醫界：<br>偵測你的未來戰略人格</h1>
-        <p style="color: var(--text-dim); font-size: 1.05rem; margin-bottom: 2rem;">拯救人類的任務，光靠熱血是不夠的。<br>在數據迷霧中，你是哪一種覺醒力量？</p>
-        <button class="option" style="text-align: center; background: var(--p1); color: #000; font-weight: 900; font-size: 1.15rem;" onclick="begin()">啟動掃描程序</button>
-        <div style="font-size: 0.9rem; color: #64748b; margin-top: 20px;">🟢 已有 <span id="p-count" style="font-weight:900;">2,482</span> 位高中菁英在線同步</div>
+        <p style="color: var(--text-dim); font-size: 0.95rem; margin-bottom: 2rem;">拯救人類的任務，光靠熱血是不夠的。<br>在數據迷霧中，你是哪一種覺醒力量？</p>
+        <button class="option" style="text-align: center; background: var(--p1); color: #000; font-weight: 900; font-size: 1.1rem;" onclick="begin()">啟動掃描程序</button>
+        <div style="font-size: 0.85rem; color: #64748b; margin-top: 20px;">🟢 已有 <span id="p-count" style="font-weight:900;">2,482</span> 位高中菁英在線同步</div>
     </div>
 
     <div id="quiz" class="hidden">
         <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
-        <p id="q-text" style="font-size: 1.25rem; text-align: left; color: var(--text-bright); font-weight: 900; margin-bottom: 1.5rem; min-height: 2.5em; line-height: 1.4;"></p>
+        <p id="q-text" style="font-size: 1.15rem; text-align: left; color: var(--text-bright); font-weight: 900; margin-bottom: 1.2rem; min-height: 2.5em; line-height: 1.4;"></p>
         <div id="options"></div>
-        <div style="margin-top: 25px;">
-            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:0.95rem; font-weight:900;">← 返回上一題</button>
+        <div style="margin-top: 20px;">
+            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:0.9rem; font-weight:900;">← 返回上一題</button>
         </div>
     </div>
 
@@ -163,20 +166,20 @@
         <div class="long-progress">
             <div class="long-progress-fill" id="long-bar"></div>
         </div>
-        <p style="margin-top: 25px; font-size: 1.1rem; color: var(--p1); font-weight: 900;">正在根據您的決策模型<br>匹配未來戰略人格位階</p>
+        <p style="margin-top: 25px; font-size: 1rem; color: var(--p1); font-weight: 700;">正在根據您的決策模型<br>匹配未來戰略人格位階</p>
     </div>
 
     <div id="result" class="hidden">
         <div class="urgent-tag">⚡ 戰略席次僅剩：12 席 ⚡</div>
-        <div style="font-size: 1rem; color: var(--p1); font-weight: 900; margin-bottom:8px; letter-spacing:1px;">AI 診斷完成！特質同步率 98.4%</div>
+        <div style="font-size: 0.85rem; color: var(--p1); font-weight: 900; margin-bottom:5px; letter-spacing:1px;">AI 診斷完成！同步率 98.4%</div>
         <div class="mbti-code" id="res-code"></div>
-        <h2 id="res-title" style="color:var(--text-bright); margin-top:0; font-size: 1.8rem; font-weight: 900;"></h2>
+        <h2 id="res-title" style="color:var(--text-bright); margin-top:0; font-size: 1.5rem; font-weight: 900;"></h2>
         
         <div class="chart-container">
             <canvas id="radarChart"></canvas>
         </div>
 
-        <div class="match-list" id="res-match" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:15px;"></div>
+        <div class="match-list" id="res-match" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:15px;"></div>
 
         <div class="section-box">
             <span class="section-label">🌟 異世界生存情境</span>
@@ -188,11 +191,11 @@
             <div class="section-text" id="res-classroom"></div>
         </div>
 
-        <button class="cta-btn" style="background: var(--gold); color: #000; padding: 1.3rem;" onclick="openCoupon()">
-            🎁 領取限額優惠碼並搶先卡位報名
+        <button class="cta-btn" style="background: var(--gold); color: #000; padding: 1.1rem; margin-top: 20px;" onclick="openCoupon()">
+            🎁 領取專屬優惠碼並搶先卡位
         </button>
         
-        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:1rem; border:none; margin-top:15px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
+        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:0.9rem; border:none; margin-top:10px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
     </div>
 </div>
 
@@ -200,29 +203,29 @@
     <div class="toast-avatar" id="toast-initial">L</div>
     <div class="toast-body">
         <b id="toast-name" style="color:var(--p1);">林同學</b> 剛完成了高峰會卡位報名！
-        <div id="toast-time" style="font-size: 12px; color: #94a3b8; margin-top:2px; font-weight:500;">5分鐘前 · 來自台北市</div>
+        <div id="toast-time" style="font-size: 11px; color: #94a3b8; margin-top:2px;">5分鐘前 · 來自台北市</div>
     </div>
 </div>
 
 <div class="modal-overlay" id="coupon-modal">
     <div class="modal-content">
-        <div style="font-size: 3rem; margin-bottom: 10px;">👑</div>
-        <h2 style="color:var(--gold); font-size: 2rem; font-weight: 900; margin:0; letter-spacing:1px;">領袖資格確認完成</h2>
-        <p style="color: #fecaca; font-size: 1rem; margin-top: 8px; font-weight:700;">您的專屬優惠碼已暫時保留：</p>
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">👑</div>
+        <h2 style="color:var(--gold); font-size: 1.7rem; font-weight: 900; margin:0; letter-spacing:1px;">領袖資格確認完成</h2>
+        <p style="color: #fecaca; font-size: 0.9rem; margin-top: 8px; font-weight:700;">您的專屬優惠碼已暫時保留：</p>
         
         <div class="coupon-code" id="coupon-text">phdcenter_causal888</div>
 
         <div class="timer-banner">
-            <span style="color:var(--gold); font-weight:900; font-size:1rem; display:block; margin-bottom:5px;">🚨 剩餘名額：7 位</span>
+            <span style="color:var(--gold); font-weight:900; font-size:0.95rem; display:block; margin-bottom:5px;">🚨 剩餘名額：7 位</span>
             系統保留時間剩餘：<span class="timer-value" id="timer">24:00:00</span>
         </div>
 
-        <p style="color: #ffffff; font-size: 1rem; line-height: 1.5; margin: 15px 0; font-weight:400;">
+        <p style="color: #ffffff; font-size: 0.9rem; line-height: 1.5; margin: 15px 0;">
             請前往<b>高峰會報名系統</b>，輸入優惠碼即可折抵費用。
         </p>
 
         <button class="cta-btn" style="background: var(--gold); color: #000; margin-top: 5px;" onclick="copyCoupon()">複製代碼並立即前往報名</button>
-        <button onclick="closeModal()" style="border:none; background:transparent; color:rgba(255,255,255,0.6); margin-top:15px; cursor:pointer; font-size:0.95rem; font-weight:700; padding: 10px; display:block; width:100%;">放棄席次保留並關閉</button>
+        <button onclick="closeModal()" style="border:none; background:transparent; color:rgba(255,255,255,0.6); margin-top:15px; cursor:pointer; font-size:0.9rem; font-weight:700; padding: 10px; display:block; width:100%;">放棄席次保留並關閉</button>
     </div>
 </div>
 
@@ -235,9 +238,10 @@
         if(!toast) return;
         const name = names[Math.floor(Math.random() * names.length)];
         const city = cities[Math.floor(Math.random() * cities.length)];
+        const randomMin = Math.floor(Math.random() * 55) + 1;
         document.getElementById('toast-name').innerText = name;
         document.getElementById('toast-initial').innerText = name[name.length - 3] || name[0];
-        document.getElementById('toast-time').innerText = `${Math.floor(Math.random() * 55) + 1}分鐘前 · 來自${city}`;
+        document.getElementById('toast-time').innerText = `${randomMin}分鐘前 · 來自${city}`;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 5000);
     }
@@ -258,7 +262,11 @@
     let currentStep = 0;
     let userAnswers = new Array(questions.length).fill(null);
 
-    window.begin = () => { document.getElementById('start').classList.add('hidden'); document.getElementById('quiz').classList.remove('hidden'); render(); };
+    window.begin = () => { 
+        document.getElementById('start').classList.add('hidden'); 
+        document.getElementById('quiz').classList.remove('hidden'); 
+        render(); 
+    };
 
     function render() {
         const q = questions[currentStep];
@@ -279,7 +287,14 @@
     function selectOption(idx) {
         userAnswers[currentStep] = idx;
         render();
-        setTimeout(() => { if (currentStep < questions.length - 1) { currentStep++; render(); } else { startProcessing(); } }, 400);
+        setTimeout(() => { 
+            if (currentStep < questions.length - 1) { 
+                currentStep++; 
+                render(); 
+            } else { 
+                startProcessing(); 
+            } 
+        }, 400);
     }
 
     window.prevStep = () => { if (currentStep > 0) { currentStep--; render(); } }
@@ -320,7 +335,7 @@
         let dimScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
         
         userAnswers.forEach((ansIdx, qIdx) => {
-            if (ansIdx === null || !questions[qIdx].options[ansIdx]) return;
+            if (ansIdx === null || !questions[qIdx] || !questions[qIdx].options[ansIdx]) return;
             const weight = questions[qIdx].options[ansIdx].w;
             for(let k in weight) {
                 if(mbtiScores.hasOwnProperty(k)) mbtiScores[k] += weight[k];
@@ -338,7 +353,11 @@
             "ENFP": { t: "跨界創新預言家", s: "你是團隊的靈感源泉。你擅長發現數據中隱藏的意義與機會，能將冷冰冰的科學發現轉化為改變世界的願景。", r: "<b>你的戰位：</b> 團隊中的<b>創新推廣者</b>。<br><b>營隊強化：</b> 學習如何將<b>『AI 數據轉化為戰略說服力』</b>。" }
         };
 
-        const f = resultsMap[code] || { t: "覺醒計畫先鋒", s: "你是全能型的戰略人才。在算力與深度邏輯之間，你掌握了完美的平衡。這種多元視角在未來醫界是極其珍稀且被高度渴求的資質。", r: "<b>你的戰位：</b> 團隊中的<b>技術協調官</b>。<br><b>營隊強化：</b> 本次營隊將提供全方位的<b>『藥物開發大師地圖』</b>。" };
+        const f = resultsMap[code] || { 
+            t: "覺醒計畫先鋒", 
+            s: "你是全能型的戰略人才。在算力與深度邏輯之間，你掌握了完美的平衡。這種多元視角在未來醫界是極其珍稀且被高度渴求的資質。", 
+            r: "<b>你的戰位：</b> 團隊中的<b>技術協調官</b>。<br><b>營隊強化：</b> 本次營隊將提供全方位的<b>『藥物開發大師地圖』</b>。" 
+        };
 
         document.getElementById('res-title').innerText = f.t;
         document.getElementById('res-story').innerHTML = f.s;
@@ -361,21 +380,28 @@
         });
     }
 
+    // --- 五角圖優化：自適應寬度與字體防切邊 ---
     function drawRadar(data) {
         const canvas = document.getElementById('radarChart');
         const ctx = canvas.getContext('2d');
         const container = canvas.parentElement;
-        const width = Math.min(container.offsetWidth, 360);
+        const containerWidth = container.offsetWidth;
+        const size = Math.min(containerWidth, 360);
+        
         const dpr = window.devicePixelRatio || 2;
-        canvas.width = width * dpr; canvas.height = width * dpr;
-        canvas.style.width = width + 'px'; canvas.style.height = width + 'px';
+        canvas.width = size * dpr; 
+        canvas.height = size * dpr;
+        canvas.style.width = size + 'px'; 
+        canvas.style.height = size + 'px';
         ctx.scale(dpr, dpr);
 
-        const centerX = width / 2, centerY = width / 2, radius = width * 0.26; 
+        const centerX = size / 2, centerY = size / 2;
+        // 手機版縮小半徑，留更多空間給字體
+        const radius = size * (size < 340 ? 0.22 : 0.26); 
         const labels = ["創新直覺", "邏輯推理", "社交領導", "執行穩定", "因果洞察"];
         const values = [data.innovation, data.logic, data.leadership, data.stability, data.causal];
 
-        ctx.clearRect(0, 0, width, width);
+        ctx.clearRect(0, 0, size, size);
         ctx.strokeStyle = "rgba(0, 242, 254, 0.3)"; ctx.lineWidth = 1;
         for (let j = 1; j <= 5; j++) {
             ctx.beginPath();
@@ -394,12 +420,15 @@
         }
         ctx.closePath(); ctx.fillStyle = "rgba(0, 242, 254, 0.45)"; ctx.fill(); ctx.strokeStyle = "var(--p1)"; ctx.lineWidth = 3; ctx.stroke();
         
-        ctx.fillStyle = "#ffffff"; ctx.font = "bold 15px 'Noto Sans TC'";
+        const fontSize = size < 340 ? 12 : 14;
+        ctx.fillStyle = "#ffffff"; ctx.font = `bold ${fontSize}px 'Noto Sans TC'`;
         for (let i = 0; i < 5; i++) {
             const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
-            const textDist = radius + 22; 
+            const textDist = radius + (size < 340 ? 18 : 22); 
             const tx = centerX + textDist * Math.cos(a);
             const ty = centerY + textDist * Math.sin(a);
+            
+            // 手機版動態對齊修正
             if (i === 0) { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; }
             else if (i === 1) { ctx.textAlign = "left"; ctx.textBaseline = "middle"; }
             else if (i === 2) { ctx.textAlign = "left"; ctx.textBaseline = "top"; }
@@ -409,26 +438,42 @@
         }
     }
 
-    const TOTAL_TIME = 86400;
+    // --- 倒數計時永久鎖定核心邏輯 ---
+    const TOTAL_TIME = 86400; 
     let timerInterval = null;
+
     function startTimer() {
         if (timerInterval) return;
+        
         let targetTimestamp = localStorage.getItem('awakening_expiry_timestamp');
+        
         if (!targetTimestamp) {
             targetTimestamp = Date.now() + (TOTAL_TIME * 1000);
             localStorage.setItem('awakening_expiry_timestamp', targetTimestamp);
         } else {
             targetTimestamp = parseInt(targetTimestamp);
         }
+        
         const tick = () => {
             const now = Date.now();
             const remaining = Math.floor((targetTimestamp - now) / 1000);
             const el = document.getElementById('timer');
-            if (remaining <= 0) { if(el) el.innerText = "00:00:00"; clearInterval(timerInterval); return; }
-            const h = Math.floor(remaining / 3600), m = Math.floor((remaining % 3600) / 60), s = remaining % 60;
+            
+            if (remaining <= 0) { 
+                if(el) el.innerText = "00:00:00"; 
+                clearInterval(timerInterval); 
+                return; 
+            }
+            
+            const h = Math.floor(remaining / 3600);
+            const m = Math.floor((remaining % 3600) / 60);
+            const s = remaining % 60;
+            
             if(el) el.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         };
-        tick(); timerInterval = setInterval(tick, 1000);
+
+        tick(); 
+        timerInterval = setInterval(tick, 1000);
     }
 
     window.openCoupon = () => { document.getElementById('coupon-modal').style.display = 'flex'; startTimer(); };
