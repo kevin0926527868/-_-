@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>覺醒計畫：未來戰略人格評定</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@500;700;900&display=swap');
+
+        :root { 
+            --p1: #00f2fe; 
+            --p2: #4facfe; 
+            --accent: #ff007a; 
+            --bg: #050a14; 
+            --gold: #f9d423;
+            --text-bright: #ffffff;
+            --text-dim: #cbd5e1;
+            --urgent: #ff4757;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-dim); 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .card { 
+            width: 92%; 
+            max-width: 500px; 
+            background: rgba(15, 23, 42, 0.96); 
+            padding: 1.8rem; 
+            border-radius: 24px; 
+            border: 2px solid rgba(0, 242, 254, 0.4); 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
+            text-align: center; 
+            position: relative;
+            margin: 20px auto;
+        }
+
+        h1 { 
+            font-size: 1.4rem; 
+            color: var(--text-bright); 
+            margin-bottom: 1.2rem; 
+            letter-spacing: 1.5px; 
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        .mbti-code { 
+            font-size: clamp(2.5rem, 10vw, 3.2rem); 
+            font-weight: 900; 
+            background: linear-gradient(135deg, var(--p1), var(--accent)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin: 5px 0; 
+            font-family: 'Orbitron', sans-serif; 
+            letter-spacing: 4px; 
+        }
+
+        .option { 
+            display: block; 
+            width: 100%; 
+            padding: 1.1rem; 
+            margin: 12px 0; 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(0, 242, 254, 0.3); 
+            border-radius: 12px; 
+            color: var(--text-bright); 
+            text-align: left; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            font-size: 1rem; 
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .option:hover, .option:active { background: rgba(0, 242, 254, 0.15); border-color: var(--p1); }
+        .option.selected { background: rgba(0, 242, 254, 0.25); border-color: var(--p1); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
+
+        .progress-bar { height: 8px; background: #1e293b; border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: 0.4s; }
+
+        .hidden { display: none !important; }
+
+        #processing { padding: 40px 0; }
+        .loading-text { color: var(--p1); font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .long-progress { height: 12px; background: #1e293b; border-radius: 6px; overflow: hidden; width: 85%; margin: 0 auto; }
+        .long-progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: width 0.3s ease-out; }
+
+        .section-box { text-align: left; background: rgba(0,0,0,0.5); padding: 18px; border-radius: 16px; margin-top: 12px; border-left: 4px solid var(--accent); }
+        .section-label { color: var(--p1); font-size: 0.85rem; font-weight: 900; margin-bottom: 6px; display: block; font-family: 'Orbitron', sans-serif; }
+        .section-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-bright); }
+
+        .chart-container { 
+            margin: 10px auto; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+            overflow: visible; 
+            min-height: 320px;
+        }
+        #radarChart { 
+            max-width: 100%;
+            height: auto;
+        }
+
+        .match-tag { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 10px; font-size: 0.85rem; color: var(--text-bright); font-weight: 900; }
+        .match-tag b { color: var(--p1); font-family: 'Orbitron'; }
+
+        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1.2rem; border-radius: 14px; font-size: 1.15rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
+        .cta-btn:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
+
+        .urgent-tag { background: var(--urgent); color: white; font-size: 0.8rem; padding: 6px 16px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        .social-toast { position: fixed; bottom: 30px; left: 20px; background: #1e293b; border: 2px solid var(--p1); padding: 14px 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 2000; transform: translateX(-250%); transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .social-toast.show { transform: translateX(0); }
+        .toast-avatar { width: 36px; height: 36px; background: var(--p1); border-radius: 50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:14px; flex-shrink: 0; }
+        .toast-body { color: var(--text-bright); font-size: 14px; line-height: 1.4; text-align: left; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; justify-content: center; align-items: center; z-index: 3000; overflow-y: auto; }
+        .modal-content { background: linear-gradient(135deg, #881337, #4c0519); padding: 30px 25px 40px 25px; border-radius: 28px; border: 3px solid var(--gold); max-width: 450px; width: 92%; text-align: center; box-shadow: 0 0 60px rgba(249, 212, 35, 0.4); margin: 20px auto; }
+        .coupon-code { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: var(--gold); font-weight: 900; letter-spacing: 1.5px; display: block; background: rgba(0,0,0,0.4); padding: 18px; margin: 15px 0; border-radius: 18px; border: 2px dashed var(--gold); }
+        .timer-banner { background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 10px; font-size: 0.85rem; color: #fff; margin-top: 10px; }
+        .timer-value { color: var(--gold); font-weight: 900; font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="app">
+    <div id="start">
+        <div style="color: var(--p1); font-weight: 900; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2.5px;">★ AWAKENING PROJECT ★</div>
+        <h1>轉生智慧醫界：<br>偵測你的未來戰略人格</h1>
+        <p style="color: var(--text-dim); font-size: 1.05rem; margin-bottom: 2rem;">拯救人類的任務，光靠熱血是不夠的。<br>在數據迷霧中，你是哪一種覺醒力量？</p>
+        <button class="option" style="text-align: center; background: var(--p1); color: #000; font-weight: 900; font-size: 1.15rem;" onclick="begin()">啟動掃描程序</button>
+        <div style="font-size: 0.9rem; color: #64748b; margin-top: 20px;">🟢 已有 <span id="p-count" style="font-weight:900;">2,482</span> 位高中菁英在線同步</div>
+    </div>
+
+    <div id="quiz" class="hidden">
+        <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+        <p id="q-text" style="font-size: 1.25rem; text-align: left; color: var(--text-bright); font-weight: 900; margin-bottom: 1.5rem; min-height: 2.5em; line-height: 1.4;"></p>
+        <div id="options"></div>
+        <div style="margin-top: 25px;">
+            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:0.95rem; font-weight:900;">← 返回上一題</button>
+        </div>
+    </div>
+
+    <!-- 3秒不規則跳動進度條 -->
+    <div id="processing" class="hidden">
+        <span class="loading-text">ANALYZING SPECTRUM...</span>
+        <div class="long-progress">
+            <div class="long-progress-fill" id="long-bar"></div>
+        </div>
+        <p style="margin-top: 25px; font-size: 1.1rem; color: var(--p1); font-weight: 900;">正在根據您的決策模型<br>匹配未來戰略人格位階</p>
+    </div>
+
+    <div id="result" class="hidden">
+        <div class="urgent-tag">⚡ 戰略席次僅剩：12 席 ⚡</div>
+        <div style="font-size: 1rem; color: var(--p1); font-weight: 900; margin-bottom:8px; letter-spacing:1px;">AI 診斷完成！特質同步率 98.4%</div>
+        <div class="mbti-code" id="res-code"></div>
+        <h2 id="res-title" style="color:var(--text-bright); margin-top:0; font-size: 1.8rem; font-weight: 900;"></h2>
+        
+        <div class="chart-container">
+            <canvas id="radarChart"></canvas>
+        </div>
+
+        <div class="match-list" id="res-match" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:15px;"></div>
+
+        <div class="section-box">
+            <span class="section-label">🌟 異世界生存情境</span>
+            <div class="section-text" id="res-story"></div>
+        </div>
+
+        <div class="section-box" style="border-left-color: var(--p1);">
+            <span class="section-label" style="color: var(--p1);">🎯 核心職能與覺醒補強</span>
+            <div class="section-text" id="res-classroom"></div>
+        </div>
+
+        <button class="cta-btn" style="background: var(--gold); color: #000; padding: 1.3rem;" onclick="openCoupon()">
+            🎁 領取限額優惠碼並搶先卡位報名
+        </button>
+        
+        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:1rem; border:none; margin-top:15px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
+    </div>
+</div>
+
+<div class="social-toast" id="toast">
+    <div class="toast-avatar" id="toast-initial">L</div>
+    <div class="toast-body">
+        <b id="toast-name" style="color:var(--p1);">林同學</b> 剛完成了高峰會卡位報名！
+        <div id="toast-time" style="font-size: 12px; color: #94a3b8; margin-top:2px; font-weight:500;">5分鐘前 · 來自台北市</div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="coupon-modal">
+    <div class="modal-content">
+        <div style="font-size: 3rem; margin-bottom: 10px;">👑</div>
+        <h2 style="color:var(--gold); font-size: 2rem; font-weight: 900; margin:0; letter-spacing:1px;">領袖資格確認完成</h2>
+        <p style="color: #fecaca; font-size: 1rem; margin-top: 8px; font-weight:700;">您的專屬優惠碼已暫時保留：</p>
+        
+        <div class="coupon-code" id="coupon-text">phdcenter_causal888</div>
+
+        <div class="timer-banner">
+            <span style="color:var(--gold); font-weight:900; font-size:1rem; display:block; margin-bottom:5px;">🚨 剩餘名額：7 位</span>
+            系統保留時間剩餘：<span class="timer-value" id="timer">24:00:00</span>
+        </div>
+
+        <p style="color: #ffffff; font-size: 1rem; line-height: 1.5; margin: 15px 0; font-weight:400;">
+            請前往<b>高峰會報名系統</b>，輸入優惠碼即可折抵費用。
+        </p>
+
+        <button class="cta-btn" style="background: var(--gold); color: #000; margin-top: 5px;" onclick="copyCoupon()">複製代碼並立即前往報名</button>
+        <button onclick="closeModal()" style="border:none; background:transparent; color:rgba(255,255,255,0.6); margin-top:15px; cursor:pointer; font-size:0.95rem; font-weight:700; padding: 10px; display:block; width:100%;">放棄席次保留並關閉</button>
+    </div>
+</div>
+
+<script>
+    // --- 社交與計時系統 ---
+    const names = ["林同學", "陳同學", "張同學", "王同學", "李同學", "黃同學", "吳同學", "蔡同學", "高二 陳同學", "高三 張同學", "周同學", "劉同學", "郭同學", "許同學", "高一 趙同學"];
+    const cities = ["台北市", "台中市", "高雄市", "台南市", "新竹市", "桃園市", "嘉義市", "彰化縣", "屏東縣", "雲林縣"];
+    function showToast() {
+        const toast = document.getElementById('toast');
+        if(!toast) return;
+        const name = names[Math.floor(Math.random() * names.length)];
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        document.getElementById('toast-name').innerText = name;
+        document.getElementById('toast-initial').innerText = name[name.length - 3] || name[0];
+        document.getElementById('toast-time').innerText = `${Math.floor(Math.random() * 55) + 1}分鐘前 · 來自${city}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+    function scheduleNextToast() {
+        const intervals = [12000, 30000, 45000, 18000, 25000, 40000];
+        setTimeout(() => { showToast(); scheduleNextToast(); }, intervals[Math.floor(Math.random() * intervals.length)]);
+    }
+    setTimeout(scheduleNextToast, 15000);
+
+    const questions = [
+        { q: "看到數據說『吃早餐的人成績好』，你的直覺反應是？", options: [{ t: "掌握規律，優化個人習慣提升表現。", w: { stability: 3, S: 2, J: 2 } }, { t: "質疑原因，探究家境等背後變因。", w: { causal: 3, I: 2, T: 2 } }] },
+        { q: "組隊競賽時，若組員意見產生嚴重分歧，你會優先？", options: [{ t: "主動協調，確保團隊準時完成成果。", w: { leadership: 3, E: 2, J: 2 } }, { t: "腦力激盪，引導組員尋找創新點子。", w: { innovation: 3, N: 2, P: 2 } }] },
+        { q: "面對準確率極高但看不清運作過程的 AI，你會優先？", options: [{ t: "重視安全，按照標準程序嚴格測試。", w: { stability: 3, S: 2, J: 2 } }, { t: "釐清原理，深度拆解數據運作邏輯。", w: { logic: 3, T: 3, I: 1 } }] },
+        { q: "遇到一個難解的科展題目且現有教材沒答案時，你會？", options: [{ t: "細微觀察，從實驗差異中找出連結。", w: { causal: 3, I: 2, T: 2 } }, { t: "跨界思考，結合不同科目知識解題。", w: { innovation: 3, N: 2, P: 2 } }] },
+        { q: "社團成發倒數 24 小時，若發現環節可以更好，你會？", options: [{ t: "穩定優先：練習現有內容確保零失誤。", w: { stability: 3, J: 3, S: 1 } }, { t: "突破優先：冒險調整亮點力求觀眾驚艷。", w: { leadership: 3, E: 2, P: 2 } }] }
+    ];
+
+    let currentStep = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+
+    window.begin = () => { document.getElementById('start').classList.add('hidden'); document.getElementById('quiz').classList.remove('hidden'); render(); };
+
+    function render() {
+        const q = questions[currentStep];
+        document.getElementById('q-text').innerText = `STEP ${currentStep + 1}. ${q.q}`;
+        document.getElementById('bar').style.width = ((currentStep) / questions.length) * 100 + "%";
+        const box = document.getElementById('options');
+        box.innerHTML = '';
+        q.options.forEach((o, i) => {
+            const b = document.createElement('button');
+            b.className = 'option' + (userAnswers[currentStep] === i ? ' selected' : '');
+            b.innerText = o.t;
+            b.onclick = () => selectOption(i);
+            box.appendChild(b);
+        });
+        document.getElementById('prev-btn').style.visibility = currentStep > 0 ? 'visible' : 'hidden';
+    }
+
+    function selectOption(idx) {
+        userAnswers[currentStep] = idx;
+        render();
+        setTimeout(() => { if (currentStep < questions.length - 1) { currentStep++; render(); } else { startProcessing(); } }, 400);
+    }
+
+    window.prevStep = () => { if (currentStep > 0) { currentStep--; render(); } }
+
+    function startProcessing() {
+        document.getElementById('quiz').classList.add('hidden');
+        document.getElementById('processing').classList.remove('hidden');
+        const bar = document.getElementById('long-bar');
+        let currentProgress = 0;
+        const totalTime = 3000; 
+        const startTime = Date.now();
+        function step() {
+            const elapsed = Date.now() - startTime;
+            if (elapsed >= totalTime) { bar.style.width = '100%'; setTimeout(showResult, 600); return; }
+            const jump = Math.random() > 0.6 ? Math.random() * 35 : Math.random() * 5;
+            currentProgress = Math.min(95, currentProgress + jump);
+            bar.style.width = currentProgress + '%';
+            setTimeout(step, 150 + Math.random() * 350);
+        }
+        step();
+    }
+
+    window.resetTest = () => {
+        currentStep = 0;
+        userAnswers = new Array(questions.length).fill(null);
+        document.getElementById('result').classList.add('hidden');
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('long-bar').style.width = '0%';
+        document.getElementById('bar').style.width = '0%';
+    };
+
+    function showResult() {
+        document.getElementById('processing').classList.add('hidden');
+        const resEl = document.getElementById('result');
+        resEl.classList.remove('hidden');
+        
+        let mbtiScores = { E:0, I:0, N:0, S:0, T:0, F:0, J:0, P:0 };
+        let dimScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
+        
+        userAnswers.forEach((ansIdx, qIdx) => {
+            if (ansIdx === null || !questions[qIdx].options[ansIdx]) return;
+            const weight = questions[qIdx].options[ansIdx].w;
+            for(let k in weight) {
+                if(mbtiScores.hasOwnProperty(k)) mbtiScores[k] += weight[k];
+                if(dimScores.hasOwnProperty(k)) dimScores[k] += weight[k];
+            }
+        });
+
+        let code = (mbtiScores.E >= mbtiScores.I ? "E" : "I") + (mbtiScores.N >= mbtiScores.S ? "N" : "S") + (mbtiScores.T >= mbtiScores.F ? "T" : "F") + (mbtiScores.J >= mbtiScores.P ? "J" : "P");
+        document.getElementById('res-code').innerText = code;
+
+        const resultsMap = {
+            "ENTJ": { t: "AI 戰略總指揮", s: "你是天生的決策領袖。在複雜的數據迷霧中，你能一眼看穿通往解藥的最短路徑。你的存在是團隊在商戰與科研中的定海神針。", r: "<b>你的戰位：</b> 團隊中的<b>策略領航員</b>。<br><b>營隊強化：</b> 本次課程將為你解鎖<b>『醫藥 AI 戰略加速引擎』</b>。" },
+            "INTJ": { t: "因果真相建築師", s: "你擁有極強的全局視野與預見力。你視數據為藍圖，利用邏輯與直覺構建完美的開發體系，是團隊中最深不可測的幕後推手。", r: "<b>你的戰位：</b> 團隊中的<b>首席架構師</b>。<br><b>營隊強化：</b> 我們將提供<b>『大數據因果分析技術』</b>課程。" },
+            "INTP": { t: "數據偵探解析官", s: "你拒絕盲從。對你而言，數據背後的運作規律才是真相。你冷靜拆解每一項 AI 預測，是確保計畫不被假象誤導的最強守門員。", r: "<b>你的戰位：</b> 團隊中的<b>深度解析官</b>。<br><b>營隊強化：</b> 我們將提供<b>『因果推論實戰手冊』</b>。" },
+            "ENFP": { t: "跨界創新預言家", s: "你是團隊的靈感源泉。你擅長發現數據中隱藏的意義與機會，能將冷冰冰的科學發現轉化為改變世界的願景。", r: "<b>你的戰位：</b> 團隊中的<b>創新推廣者</b>。<br><b>營隊強化：</b> 學習如何將<b>『AI 數據轉化為戰略說服力』</b>。" }
+        };
+
+        const f = resultsMap[code] || { t: "覺醒計畫先鋒", s: "你是全能型的戰略人才。在算力與深度邏輯之間，你掌握了完美的平衡。這種多元視角在未來醫界是極其珍稀且被高度渴求的資質。", r: "<b>你的戰位：</b> 團隊中的<b>技術協調官</b>。<br><b>營隊強化：</b> 本次營隊將提供全方位的<b>『藥物開發大師地圖』</b>。" };
+
+        document.getElementById('res-title').innerText = f.t;
+        document.getElementById('res-story').innerHTML = f.s;
+        document.getElementById('res-classroom').innerHTML = f.r;
+
+        requestAnimationFrame(() => {
+            const normalize = (val) => Math.min(95, Math.max(48, val * 12)); 
+            drawRadar({
+                innovation: normalize(dimScores.innovation), 
+                logic: normalize(dimScores.logic), 
+                leadership: normalize(dimScores.leadership), 
+                stability: normalize(dimScores.stability), 
+                causal: normalize(dimScores.causal)
+            });
+
+            const matchBox = document.getElementById('res-match');
+            let mHTML = `<div class="match-tag">核心原型: <b>${code} 98.4%</b></div>`;
+            ["INTJ", "ENTJ", "INTP", "ENFP"].filter(t => t !== code).slice(0,2).forEach(t => { mHTML += `<div class="match-tag">${t} <b>${Math.floor(Math.random()*15+70)}%</b></div>`; });
+            matchBox.innerHTML = mHTML;
+        });
+    }
+
+    function drawRadar(data) {
+        const canvas = document.getElementById('radarChart');
+        const ctx = canvas.getContext('2d');
+        const container = canvas.parentElement;
+        const width = Math.min(container.offsetWidth, 360);
+        const dpr = window.devicePixelRatio || 2;
+        canvas.width = width * dpr; canvas.height = width * dpr;
+        canvas.style.width = width + 'px'; canvas.style.height = width + 'px';
+        ctx.scale(dpr, dpr);
+
+        const centerX = width / 2, centerY = width / 2, radius = width * 0.26; 
+        const labels = ["創新直覺", "邏輯推理", "社交領導", "執行穩定", "因果洞察"];
+        const values = [data.innovation, data.logic, data.leadership, data.stability, data.causal];
+
+        ctx.clearRect(0, 0, width, width);
+        ctx.strokeStyle = "rgba(0, 242, 254, 0.3)"; ctx.lineWidth = 1;
+        for (let j = 1; j <= 5; j++) {
+            ctx.beginPath();
+            const r = (radius / 5) * j;
+            for (let i = 0; i < 5; i++) {
+                const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
+                ctx.lineTo(centerX + r * Math.cos(a), centerY + r * Math.sin(a));
+            }
+            ctx.closePath(); ctx.stroke();
+        }
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+            const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
+            const r = (values[i] / 100) * radius;
+            ctx.lineTo(centerX + r * Math.cos(a), centerY + r * Math.sin(a));
+        }
+        ctx.closePath(); ctx.fillStyle = "rgba(0, 242, 254, 0.45)"; ctx.fill(); ctx.strokeStyle = "var(--p1)"; ctx.lineWidth = 3; ctx.stroke();
+        
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 15px 'Noto Sans TC'";
+        for (let i = 0; i < 5; i++) {
+            const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
+            const textDist = radius + 22; 
+            const tx = centerX + textDist * Math.cos(a);
+            const ty = centerY + textDist * Math.sin(a);
+            if (i === 0) { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; }
+            else if (i === 1) { ctx.textAlign = "left"; ctx.textBaseline = "middle"; }
+            else if (i === 2) { ctx.textAlign = "left"; ctx.textBaseline = "top"; }
+            else if (i === 3) { ctx.textAlign = "right"; ctx.textBaseline = "top"; }
+            else if (i === 4) { ctx.textAlign = "right"; ctx.textBaseline = "middle"; }
+            ctx.fillText(labels[i], tx, ty);
+        }
+    }
+
+    const TOTAL_TIME = 86400;
+    let timerInterval = null;
+    function startTimer() {
+        if (timerInterval) return;
+        let targetTimestamp = localStorage.getItem('awakening_expiry_timestamp');
+        if (!targetTimestamp) {
+            targetTimestamp = Date.now() + (TOTAL_TIME * 1000);
+            localStorage.setItem('awakening_expiry_timestamp', targetTimestamp);
+        } else {
+            targetTimestamp = parseInt(targetTimestamp);
+        }
+        const tick = () => {
+            const now = Date.now();
+            const remaining = Math.floor((targetTimestamp - now) / 1000);
+            const el = document.getElementById('timer');
+            if (remaining <= 0) { if(el) el.innerText = "00:00:00"; clearInterval(timerInterval); return; }
+            const h = Math.floor(remaining / 3600), m = Math.floor((remaining % 3600) / 60), s = remaining % 60;
+            if(el) el.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        };
+        tick(); timerInterval = setInterval(tick, 1000);
+    }
+
+    window.openCoupon = () => { document.getElementById('coupon-modal').style.display = 'flex'; startTimer(); };
+    window.closeModal = () => { document.getElementById('coupon-modal').style.display = 'none'; };
+    window.copyCoupon = () => {
+        const dummy = document.createElement("textarea"); document.body.appendChild(dummy);
+        dummy.value = "phdcenter_causal888"; dummy.select(); document.execCommand("copy"); document.body.removeChild(dummy);
+        alert("代碼已複製！即將前往報名系統..."); window.open('https://www.phdcenter.org.tw/2026-ai-camp/', '_blank');
+    };
+</script>
+</body>
+</html>
