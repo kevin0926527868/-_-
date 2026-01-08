@@ -182,7 +182,7 @@
             50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 15px var(--accent-warm); color: var(--accent-warm); }
         }
 
-        /* 修正後的極簡左下角通知 - 更小且不干擾 */
+        /* 修正後的極簡左下角通知 */
         .toast {
             position: fixed; bottom: 10px; left: 10px; 
             background: rgba(26, 36, 34, 0.95); 
@@ -207,23 +207,6 @@
         .match-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; width: 100%; }
         .match-bar-bg { flex-grow: 1; height: 6px; background: rgba(0,0,0,0.7); border-radius: 3px; overflow: hidden; }
         .match-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 0%; transition: 2s cubic-bezier(0.2, 1, 0.3, 1); }
-
-        .coupon-box {
-            background: rgba(0, 0, 0, 0.6); 
-            padding: 15px 10px; 
-            border: 1px dashed var(--accent-warm); 
-            margin: 15px 0; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            color: var(--accent-warm); 
-            letter-spacing: 3px; 
-            font-size: clamp(1rem, 4.5vw, 1.3rem); 
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
-            word-break: break-all;
-            overflow-wrap: break-word;
-            line-height: 1.4;
-            max-width: 100%;
-        }
 
         .urgent-pulse { animation: pulse 2s infinite; color: var(--accent-warm); font-weight: 900; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
@@ -288,14 +271,6 @@
         
         <div class="chart-container">
             <canvas id="radarChart"></canvas>
-        </div>
-
-        <!-- 優惠碼區塊：直接顯示 -->
-        <div class="section-box" style="border-left-color: var(--accent-warm); text-align: center;">
-            <p style="font-size: 0.85rem; color: var(--text-bright); margin-bottom: 5px;">您的特質已獲導師認認，代碼已鎖定：</p>
-            <div class="coupon-box">phdcenter_causal888</div>
-            <div id="timer-result" style="color: var(--text-bright); font-family: 'Quicksand', sans-serif; font-weight: 900; font-size: 1.3rem; margin-bottom: 5px; letter-spacing: 3px;">24:00:00</div>
-            <p class="urgent-pulse" style="font-size: 0.8rem; margin: 0;">⚠️ 因果魔法學院目前僅剩 3 個入學名額</p>
         </div>
 
         <div class="section-box">
@@ -427,11 +402,6 @@
         document.getElementById('processing').classList.add('hidden');
         document.getElementById('result').classList.remove('hidden');
 
-        if (!globalEndTime) {
-            globalEndTime = Date.now() + 86400000; 
-            startBackgroundTimer(); 
-        }
-
         let mScores = { E:0, I:0, N:0, S:0, T:0, F:0, J:0, P:0 };
         let dScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
 
@@ -519,21 +489,6 @@
     }
 
     window.resetTest = () => { currentStep = 0; userAnswers.fill(null); document.getElementById('result').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); };
-
-    function startBackgroundTimer() {
-        if(timerItv) clearInterval(timerItv);
-        const updateUI = () => {
-            if (!globalEndTime) return;
-            const now = Date.now();
-            let diff = Math.floor((globalEndTime - now) / 1000);
-            if (diff <= 0) { diff = 0; clearInterval(timerItv); }
-            const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
-            const timerEl = document.getElementById('timer-result');
-            if (timerEl) { timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
-        };
-        updateUI();
-        timerItv = setInterval(updateUI, 1000);
-    }
 
     window.copyCoupon = () => {
         const dummy = document.createElement('textarea'); dummy.value = "phdcenter_causal888";
