@@ -3,279 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>覺醒計畫：未來戰略人格評定</title>
+    <title>因果魔法學院：覺醒者人格評定</title>
+    <!-- 引入神祕學感字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+TC:wght@400;700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@500;700;900&display=swap');
-
         :root { 
-            --p1: #00f2fe; 
-            --p2: #4facfe; 
-            --accent: #ff007a; 
-            --bg: #050a14; 
-            --gold: #f9d423;
-            --text-bright: #ffffff;
-            --text-dim: #cbd5e1;
-            --urgent: #ff4757;
+            --primary: #427567;         /* 主色：松嶺綠 */
+            --primary-dark: #1a261f;    /* 森林暗部 */
+            --primary-light: #88b4a9;   /* 苔蘚綠 */
+            --accent-warm: #e5c07b;     /* 暖香檳金 */
+            --bg-deep: #0c110e;         /* 森林深夜基調 */
+            --text-bright: #fdf6e3;     /* 象牙白 */
+            --text-soft: #b1b59c;       /* 羊皮紙灰綠 */
+            --magic-glow: rgba(229, 192, 123, 0.3); /* 暖金發光 */
         }
 
-        /* 重設基礎樣式，優化手機觸控 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-
+        
         body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            background: var(--bg); 
-            color: var(--text-dim); 
+            font-family: 'Quicksand', 'Noto Sans TC', sans-serif; 
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(66, 117, 103, 0.3) 0%, transparent 75%),
+                radial-gradient(circle at 100% 100%, rgba(229, 192, 123, 0.05) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            background-attachment: fixed;
+            color: var(--text-bright); 
             margin: 0; 
             display: flex; 
             justify-content: center; 
-            align-items: flex-start; /* 改為頂端對齊，避免內容過長時中間被切掉 */
+            align-items: flex-start; 
             min-height: 100vh;
+            padding: 20px 0;
             overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
-            padding-top: 20px;
-            padding-bottom: 20px;
         }
 
         .card { 
-            width: 94%; 
-            max-width: 500px; 
-            background: rgba(15, 23, 42, 0.96); 
-            padding: 1.5rem; 
-            border-radius: 24px; 
-            border: 2px solid rgba(0, 242, 254, 0.4); 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
+            width: 96%; 
+            max-width: 480px; 
+            background: rgba(26, 38, 31, 0.98); 
+            padding: 2.5rem 1.5rem; 
+            border-radius: 4px; 
+            border: 1px solid var(--primary);
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 1), 0 0 30px rgba(66, 117, 103, 0.1); 
             text-align: center; 
             position: relative;
-            margin: 0 auto;
+            backdrop-filter: blur(25px);
+            margin: auto;
+        }
+
+        .card::before {
+            content: ""; position: absolute; top: 12px; left: 12px; width: 35px; height: 35px;
+            border-top: 2px solid var(--accent-warm); border-left: 2px solid var(--accent-warm);
+            opacity: 0.8;
+        }
+        .card::after {
+            content: ""; position: absolute; bottom: 12px; right: 12px; width: 35px; height: 35px;
+            border-bottom: 2px solid var(--accent-warm); border-right: 2px solid var(--accent-warm);
+            opacity: 0.8;
         }
 
         h1 { 
-            font-size: 1.3rem; 
-            color: var(--text-bright); 
-            margin-bottom: 1.2rem; 
-            letter-spacing: 1.2px; 
+            font-size: 1.4rem; 
+            color: var(--accent-warm); 
+            margin-bottom: 1.8rem; 
+            font-family: 'Cinzel', 'Noto Sans TC', serif;
             font-weight: 900;
             line-height: 1.4;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.9);
+            letter-spacing: 1px;
         }
 
         .mbti-code { 
-            font-size: clamp(2.2rem, 8vw, 3.2rem); 
+            font-size: clamp(3rem, 12vw, 4rem); 
             font-weight: 900; 
-            background: linear-gradient(135deg, var(--p1), var(--accent)); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            margin: 5px 0; 
-            font-family: 'Orbitron', sans-serif; 
-            letter-spacing: 4px; 
+            color: var(--accent-warm); 
+            margin: 10px 0; 
+            font-family: 'Cinzel', serif; 
+            text-shadow: 0 0 30px var(--magic-glow);
+            letter-spacing: 8px;
         }
 
-        /* 徹底修正手機版 ... 切字問題 */
+        #q-text-container {
+            min-height: 130px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
         .option { 
             display: block; 
             width: 100%; 
-            padding: 1rem 1.1rem; 
-            margin: 10px 0; 
-            background: rgba(255,255,255,0.1); 
-            border: 1px solid rgba(0, 242, 254, 0.3); 
-            border-radius: 12px; 
+            padding: 1.15rem 0.8rem; 
+            margin: 12px 0; 
+            background: rgba(255, 255, 255, 0.04); 
+            border: 1px solid var(--primary); 
+            border-radius: 2px;
             color: var(--text-bright); 
-            text-align: left; 
+            text-align: center; 
             cursor: pointer; 
-            transition: 0.2s; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             font-size: 0.95rem; 
             font-weight: 700;
-            white-space: normal; /* 確保文字可換行 */
-            overflow: visible;   /* 移除隱藏 */
-            text-overflow: clip; /* 移除省略號 */
-            line-height: 1.5;
-            word-break: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        .option:hover, .option:active { background: rgba(0, 242, 254, 0.15); border-color: var(--p1); }
-        .option.selected { background: rgba(0, 242, 254, 0.25); border-color: var(--p1); box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); }
+        .option:hover, .option:active { 
+            background: var(--primary); 
+            color: #fff;
+            border-color: var(--accent-warm);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(66, 117, 103, 0.4);
+        }
 
-        .progress-bar { height: 6px; background: #1e293b; border-radius: 3px; margin-bottom: 1.5rem; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: 0.4s; }
+        .option.selected { 
+            background: rgba(229, 192, 123, 0.15); 
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+            box-shadow: 0 0 20px var(--magic-glow);
+        }
+
+        .progress-bar { width: 100%; height: 3px; background: rgba(0,0,0,0.6); margin-bottom: 1.5rem; border-radius: 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent-warm)); width: 0%; transition: 0.8s; }
 
         .hidden { display: none !important; }
 
-        #processing { padding: 30px 0; }
-        .loading-text { color: var(--p1); font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; margin-bottom: 20px; display: block; }
-        .long-progress { height: 10px; background: #1e293b; border-radius: 5px; overflow: hidden; width: 85%; margin: 0 auto; }
-        .long-progress-fill { height: 100%; background: linear-gradient(90deg, var(--p1), var(--accent)); width: 0%; transition: width 0.3s ease-out; }
+        .section-box { 
+            width: 100%;
+            text-align: left; 
+            background: rgba(0, 0, 0, 0.4); 
+            padding: 20px; 
+            border-radius: 2px;
+            border-left: 3px solid var(--primary);
+            margin-top: 15px; 
+        }
+        .section-label { 
+            color: var(--accent-warm); 
+            font-size: 0.8rem; 
+            font-weight: 900; 
+            margin-bottom: 10px; 
+            display: block;
+            font-family: 'Cinzel', sans-serif;
+            letter-spacing: 2px;
+        }
 
-        .section-box { text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 16px; margin-top: 12px; border-left: 4px solid var(--accent); }
-        .section-label { color: var(--p1); font-size: 0.8rem; font-weight: 900; margin-bottom: 6px; display: block; font-family: 'Orbitron', sans-serif; }
-        .section-text { font-size: 0.9rem; line-height: 1.6; color: var(--text-bright); }
-
-        /* 圖表自適應設定 */
-        .chart-container { 
-            margin: 5px auto; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+        .cta-btn { 
+            background: var(--accent-warm); 
+            color: var(--primary-dark); 
+            border: none; 
+            padding: 1.3rem; 
+            font-size: 1.1rem; 
+            font-weight: 900; 
             width: 100%; 
-            overflow: visible; 
-            min-height: 300px;
+            cursor: pointer; 
+            margin-top: 25px; 
+            transition: 0.3s;
+            border-radius: 2px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
-        #radarChart { 
+        .cta-btn:hover { background: #fff; transform: translateY(-3px); }
+
+        .magic-fade {
+            animation: magicFade 3.5s ease-in-out infinite;
+        }
+        @keyframes magicFade {
+            0%, 100% { opacity: 0.2; transform: scale(0.98); color: var(--text-soft); }
+            50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 15px var(--accent-warm); color: var(--accent-warm); }
+        }
+
+        .toast {
+            position: fixed; bottom: 25px; left: 25px; 
+            background: #1a2422; 
+            border: 1px solid var(--primary);
+            padding: 12px 18px; border-radius: 2px; display: flex; align-items: center;
+            gap: 12px; z-index: 5000; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8);
+            transform: translateX(-180%);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast-initial { 
+            width: 35px; height: 35px; background: var(--primary); color: #fff; 
+            border-radius: 2px; display: flex; align-items: center; justify-content: center; 
+            font-weight: 900; flex-shrink: 0; font-size: 0.9rem;
+        }
+
+        .chart-container { width: 100%; display: flex; justify-content: center; margin: 15px 0; }
+        
+        .story-text { font-size: 0.95rem; line-height: 1.8; color: var(--text-soft); text-align: left; margin-bottom: 2.2rem; }
+        .match-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; width: 100%; }
+        .match-bar-bg { flex-grow: 1; height: 8px; background: rgba(0,0,0,0.7); border-radius: 4px; overflow: hidden; }
+        .match-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 0%; transition: 2s cubic-bezier(0.2, 1, 0.3, 1); }
+
+        .coupon-box {
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 22px 10px; 
+            border: 1px dashed var(--accent-warm); 
+            margin: 20px 0; 
+            font-family: 'Cinzel', serif; 
+            font-weight: 900; 
+            color: var(--accent-warm); 
+            letter-spacing: 4px; 
+            font-size: clamp(1.1rem, 4.5vw, 1.5rem); 
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+            word-break: break-all;
+            overflow-wrap: break-word;
+            line-height: 1.4;
             max-width: 100%;
-            height: auto;
         }
-
-        .match-tag { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; color: var(--text-bright); font-weight: 900; }
-        .match-tag b { color: var(--p1); font-family: 'Orbitron'; }
-
-        .cta-btn { background: linear-gradient(90deg, var(--p1), var(--p2)); color: #000; border: none; padding: 1.1rem; border-radius: 14px; font-size: 1.1rem; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
-        .cta-btn:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
-
-        .urgent-tag { background: var(--urgent); color: white; font-size: 0.75rem; padding: 5px 12px; border-radius: 50px; font-weight: 900; display: inline-block; margin-bottom: 10px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        .social-toast { position: fixed; bottom: 20px; left: 10px; right: 10px; background: #1e293b; border: 2px solid var(--p1); padding: 12px; border-radius: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 2000; transform: translateY(200%); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .social-toast.show { transform: translateY(0); }
-        .toast-avatar { width: 32px; height: 32px; background: var(--p1); border-radius: 50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:12px; flex-shrink: 0; }
-        .toast-body { color: var(--text-bright); font-size: 13px; line-height: 1.3; text-align: left; }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; justify-content: center; align-items: center; z-index: 3000; overflow-y: auto; padding: 15px; }
-        .modal-content { background: linear-gradient(135deg, #881337, #4c0519); padding: 25px 20px; border-radius: 24px; border: 3px solid var(--gold); max-width: 450px; width: 100%; text-align: center; box-shadow: 0 0 60px rgba(249, 212, 35, 0.4); }
-        .coupon-code { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--gold); font-weight: 900; letter-spacing: 1px; display: block; background: rgba(0,0,0,0.4); padding: 15px; margin: 15px 0; border-radius: 18px; border: 2px dashed var(--gold); word-break: break-all; }
-        .timer-banner { background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #fff; margin-top: 10px; }
-        .timer-value { color: var(--gold); font-weight: 900; font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
 
 <div class="card" id="app">
+    <!-- 開始頁面 -->
     <div id="start">
-        <div style="color: var(--p1); font-weight: 900; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; letter-spacing: 2.5px; font-size: 0.8rem;">★ AWAKENING PROJECT ★</div>
-        <h1>轉生智慧醫界：<br>偵測你的未來戰略人格</h1>
-        <p style="color: var(--text-dim); font-size: 0.95rem; margin-bottom: 2rem;">拯救人類的任務，光靠熱血是不夠的。<br>在數據迷霧中，你是哪一種覺醒力量？</p>
-        <button class="option" style="text-align: center; background: var(--p1); color: #000; font-weight: 900; font-size: 1.1rem;" onclick="begin()">啟動掃描程序</button>
-        <div style="font-size: 0.85rem; color: #64748b; margin-top: 20px;">🟢 已有 <span id="p-count" style="font-weight:900;">2,482</span> 位高中菁英在線同步</div>
+        <div style="color: var(--primary-light); font-weight: 900; margin-bottom: 12px; font-family: 'Cinzel'; letter-spacing: 6px; font-size: 0.85rem; opacity: 0.8;">✧ THE CAUSAL MAGIC ✧</div>
+        <h1>轉生被 AI 主宰的世界：<br>你是唯一的覺醒者嗎？</h1>
+        
+        <div class="story-text">
+            當你睜開眼，世界已變得古怪。<br>
+            人們喪失思考，全然聽命於 AI。<br>
+            「AI 說吃越多巧克力，得獎機率越高。」<br>
+            「AI 說放棄努力，因為讀書會導致自殺率。」<br><br>
+            在一道迷霧的金光中，你推開了<b>「因果魔法學院」</b>的大門。<br>
+            五位導師在古雅的木屋中驚喜地盯著你：<br>
+            <div class="magic-fade" style="text-align: center; margin-top: 15px; font-size: 1.1rem;">「咦，你能看見我們嗎？」</div><br>
+            你，就是僅存有自我意識的人類。<br>
+            準備好學習因果魔法，拯救人類了嗎？
+        </div>
+
+        <button class="cta-btn" onclick="begin()">啟動人格鑑定試煉</button>
+        <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 30px; letter-spacing: 1px; font-weight: 700; opacity: 0.7;">
+            目前已有 5,482 位覺醒勇者通過評定 ✧
+        </div>
     </div>
 
+    <!-- 測驗頁面 -->
     <div id="quiz" class="hidden">
         <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
-        <p id="q-text" style="font-size: 1.15rem; text-align: left; color: var(--text-bright); font-weight: 900; margin-bottom: 1.2rem; min-height: 2.5em; line-height: 1.4;"></p>
-        <div id="options"></div>
-        <div style="margin-top: 20px;">
-            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:0.9rem; font-weight:900;">← 返回上一題</button>
+        <div id="q-text-container">
+            <div id="q-text"></div>
+        </div>
+        <div id="options" style="width: 100%;"></div>
+        <div style="margin-top: 25px;">
+            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:var(--text-soft); cursor:pointer; font-size:0.85rem; font-weight:700;">← 返回上一個決策點</button>
         </div>
     </div>
 
-    <!-- 3秒不規則跳動進度條 -->
+    <!-- 分析中頁面 -->
     <div id="processing" class="hidden">
-        <span class="loading-text">ANALYZING SPECTRUM...</span>
-        <div class="long-progress">
-            <div class="long-progress-fill" id="long-bar"></div>
+        <div style="margin: 60px 0; width: 100%;">
+            <div class="mbti-code" style="font-size: 1.3rem; margin-bottom: 25px; color: var(--accent-warm);">因果線索編織中...</div>
+            <div style="height: 6px; background: rgba(0,0,0,0.7); width: 100%; position: relative; border-radius: 4px; overflow: hidden;">
+                <div id="long-bar" style="position: absolute; height: 100%; background: var(--accent-warm); width: 0%; transition: 0.4s;"></div>
+            </div>
+            <p style="margin-top: 35px; font-size: 0.95rem; color: var(--primary-light); letter-spacing: 2px; font-weight: 700; line-height: 1.8;">
+                正在從您的決策印記中<br>提煉因果魔法頻譜...
+            </p>
         </div>
-        <p style="margin-top: 25px; font-size: 1rem; color: var(--p1); font-weight: 700;">正在根據您的決策模型<br>匹配未來戰略人格位階</p>
     </div>
 
+    <!-- 結果頁面 -->
     <div id="result" class="hidden">
-        <div class="urgent-tag">⚡ 戰略席次僅剩：12 席 ⚡</div>
-        <div style="font-size: 0.85rem; color: var(--p1); font-weight: 900; margin-bottom:5px; letter-spacing:1px;">AI 診斷完成！同步率 98.4%</div>
+        <div style="color: var(--primary-light); font-size: 0.85rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px;">✧ 真相顯現：覺醒共鳴度 99.8% ✧</div>
         <div class="mbti-code" id="res-code"></div>
-        <h2 id="res-title" style="color:var(--text-bright); margin-top:0; font-size: 1.5rem; font-weight: 900;"></h2>
+        <h2 id="res-title" style="color:var(--accent-warm); margin-bottom: 15px; font-size: 1.6rem; font-weight: 900; font-family: 'Cinzel', serif;"></h2>
         
         <div class="chart-container">
             <canvas id="radarChart"></canvas>
         </div>
 
-        <div class="match-list" id="res-match" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:15px;"></div>
+        <div class="section-box">
+            <span class="section-label">✦ 覺醒特質相似度 ✦</span>
+            <div id="match-spectrum" style="width: 100%;"></div>
+        </div>
 
         <div class="section-box">
-            <span class="section-label">🌟 異世界生存情境</span>
-            <div class="section-text" id="res-story"></div>
+            <span class="section-label">✦ 2099 覺醒職能描述 ✦</span>
+            <div id="res-story" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-bright);"></div>
         </div>
 
-        <div class="section-box" style="border-left-color: var(--p1);">
-            <span class="section-label" style="color: var(--p1);">🎯 核心職能與覺醒補強</span>
-            <div class="section-text" id="res-classroom"></div>
+        <div class="section-box" style="border-left-color: var(--accent-warm);">
+            <span class="section-label" style="color: var(--accent-warm);">✦ 新藥開發技能補強建議 ✦</span>
+            <div id="res-growth" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-bright);"></div>
         </div>
 
-        <button class="cta-btn" style="background: var(--gold); color: #000; padding: 1.1rem; margin-top: 20px;" onclick="openCoupon()">
-            🎁 領取專屬優惠碼並搶先卡位
-        </button>
-        
-        <button class="cta-btn" id="retake-btn" style="background:none; color:var(--p1); font-size:1rem; border:none; margin-top:10px; font-weight:900;" onclick="resetTest()">重新偵測天賦位階</button>
+        <button class="cta-btn" onclick="openCoupon()">領取營隊限時優惠碼</button>
+        <button onclick="resetTest()" style="background:none; border:none; color:var(--text-soft); margin-top:25px; cursor:pointer; font-size:0.9rem; font-weight:700;">重新感知覺醒位階</button>
     </div>
 </div>
 
-<div class="social-toast" id="toast">
-    <div class="toast-avatar" id="toast-initial">L</div>
-    <div class="toast-body">
-        <b id="toast-name" style="color:var(--p1);">林同學</b> 剛完成了高峰會卡位報名！
-        <div id="toast-time" style="font-size: 11px; color: #94a3b8; margin-top:2px;">5分鐘前 · 來自台北市</div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="coupon-modal">
-    <div class="modal-content">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">👑</div>
-        <h2 style="color:var(--gold); font-size: 1.7rem; font-weight: 900; margin:0; letter-spacing:1px;">領袖資格確認完成</h2>
-        <p style="color: #fecaca; font-size: 0.9rem; margin-top: 8px; font-weight:700;">您的專屬優惠碼已暫時保留：</p>
+<!-- 彈窗 -->
+<div class="modal-overlay" id="coupon-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 20px;">
+    <div class="modal-content" style="background: #121d1a; padding: 40px 25px; border: 2px solid var(--accent-warm); border-radius: 4px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 0 80px rgba(0, 0, 0, 1);">
+        <h2 style="color:var(--accent-warm); font-family: 'Cinzel', serif; font-size: 1.7rem; margin-top: 0; text-shadow: 0 0 15px var(--magic-glow);">最後覺醒席次確認</h2>
         
-        <div class="coupon-code" id="coupon-text">phdcenter_causal888</div>
-
-        <div class="timer-banner">
-            <span style="color:var(--gold); font-weight:900; font-size:0.95rem; display:block; margin-bottom:5px;">🚨 剩餘名額：7 位</span>
-            系統保留時間剩餘：<span class="timer-value" id="timer">24:00:00</span>
-        </div>
-
-        <p style="color: #ffffff; font-size: 0.9rem; line-height: 1.5; margin: 15px 0;">
-            請前往<b>高峰會報名系統</b>，輸入優惠碼即可折抵費用。
+        <p style="color: var(--text-bright); font-size: 1rem; margin-bottom: 20px; line-height: 1.7;">
+            您的覺醒特質已獲得因果魔法學院導師認可。<br>
+            <span style="color: var(--primary-dark); font-weight: 900; background: var(--accent-warm); padding: 4px 12px; border-radius: 2px; display: inline-block; margin-top: 10px;">⚠️ 學院目前僅剩 3 個入學名額</span>
         </p>
+        
+        <div class="coupon-box">
+            phdcenter_causal888
+        </div>
+        
+        <div id="timer" style="color: var(--text-bright); font-family: 'Quicksand', sans-serif; font-weight: 900; font-size: 1.4rem; margin-bottom: 30px; letter-spacing: 4px;">24:00:00</div>
+        
+        <a href="https://www.phdcenter.org.tw/2026-ai-camp/" target="_blank" class="cta-btn" onclick="copyCoupon()">🔥 最後一批優惠名額｜立即卡位</a>
 
-        <button class="cta-btn" style="background: var(--gold); color: #000; margin-top: 5px;" onclick="copyCoupon()">複製代碼並立即前往報名</button>
-        <button onclick="closeModal()" style="border:none; background:transparent; color:rgba(255,255,255,0.6); margin-top:15px; cursor:pointer; font-size:0.9rem; font-weight:700; padding: 10px; display:block; width:100%;">放棄席次保留並關閉</button>
+        <button onclick="closeModal()" style="background:none; border:none; color:var(--text-soft); margin-top:20px; cursor:pointer; font-size:0.8rem; font-weight:700; display:block; width:100%;">返回測驗結果</button>
+    </div>
+</div>
+
+<div class="toast" id="toast">
+    <div class="toast-initial" id="toast-initial">陳</div>
+    <div style="font-size: 0.85rem; color: #fff; line-height: 1.4; font-weight: 700;">
+        <span id="toast-content">陳同學 已獲得入學資格</span>
+        <div style="font-size: 0.75rem; color: var(--text-soft); font-weight: 700;" id="toast-sub">剛剛 · 來自新北市</div>
     </div>
 </div>
 
 <script>
-    // --- 社交與計時系統 ---
-    const names = ["林同學", "陳同學", "張同學", "王同學", "李同學", "黃同學", "吳同學", "蔡同學", "高二 陳同學", "高三 張同學", "周同學", "劉同學", "郭同學", "許同學", "高一 趙同學"];
-    const cities = ["台北市", "台中市", "高雄市", "台南市", "新竹市", "桃園市", "嘉義市", "彰化縣", "屏東縣", "雲林縣"];
-    function showToast() {
-        const toast = document.getElementById('toast');
-        if(!toast) return;
-        const name = names[Math.floor(Math.random() * names.length)];
-        const city = cities[Math.floor(Math.random() * cities.length)];
-        const randomMin = Math.floor(Math.random() * 55) + 1;
-        document.getElementById('toast-name').innerText = name;
-        document.getElementById('toast-initial').innerText = name[name.length - 3] || name[0];
-        document.getElementById('toast-time').innerText = `${randomMin}分鐘前 · 來自${city}`;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 5000);
-    }
-    function scheduleNextToast() {
-        const intervals = [12000, 30000, 45000, 18000, 25000, 40000];
-        setTimeout(() => { showToast(); scheduleNextToast(); }, intervals[Math.floor(Math.random() * intervals.length)]);
-    }
-    setTimeout(scheduleNextToast, 15000);
-
     const questions = [
-        { q: "看到數據說『吃早餐的人成績好』，你的直覺反應是？", options: [{ t: "掌握規律，優化個人習慣提升表現。", w: { stability: 3, S: 2, J: 2 } }, { t: "質疑原因，探究家境等背後變因。", w: { causal: 3, I: 2, T: 2 } }] },
-        { q: "組隊競賽時，若組員意見產生嚴重分歧，你會優先？", options: [{ t: "主動協調，確保團隊準時完成成果。", w: { leadership: 3, E: 2, J: 2 } }, { t: "腦力激盪，引導組員尋找創新點子。", w: { innovation: 3, N: 2, P: 2 } }] },
-        { q: "面對準確率極高但看不清運作過程的 AI，你會優先？", options: [{ t: "重視安全，按照標準程序嚴格測試。", w: { stability: 3, S: 2, J: 2 } }, { t: "釐清原理，深度拆解數據運作邏輯。", w: { logic: 3, T: 3, I: 1 } }] },
-        { q: "遇到一個難解的科展題目且現有教材沒答案時，你會？", options: [{ t: "細微觀察，從實驗差異中找出連結。", w: { causal: 3, I: 2, T: 2 } }, { t: "跨界思考，結合不同科目知識解題。", w: { innovation: 3, N: 2, P: 2 } }] },
-        { q: "社團成發倒數 24 小時，若發現環節可以更好，你會？", options: [{ t: "穩定優先：練習現有內容確保零失誤。", w: { stability: 3, J: 3, S: 1 } }, { t: "突破優先：冒險調整亮點力求觀眾驚艷。", w: { leadership: 3, E: 2, P: 2 } }] }
+        { q: "朋友說：『AI 預測吃巧克力越多，諾貝爾獎機率越高！』你的反應？", options: [{ t: "觀察 AI 的邏輯，看看是否能透過規律變強。", w: { stability: 3, S: 2, J: 2 } }, { t: "這只是資料湊巧吧？這世界瘋了，我要找出因果真相。", w: { causal: 3, I: 2, T: 2 } }] },
+        { q: "開發『覺醒新藥』遇到瓶頸，導師們意見產生嚴重分歧，你會？", options: [{ t: "主動站出來協調整合，確保計畫能準時推進。", w: { leadership: 3, E: 2, J: 2 } }, { t: "思考平行宇宙的可能性，看看有沒有創新的開發點。", w: { innovation: 3, N: 2, P: 2 } }] },
+        { q: "有一個超準但過程不明的『新藥 AI 預測神算』，你會？", options: [{ t: "直接採用，爭取時間拯救更多即將喪失思考能力的人。", w: { stability: 3, J: 3, S: 1 } }, { t: "研究運作邏輯，萬一 AI 被洗腦了導致偏差怎麼辦？", w: { logic: 3, T: 3, I: 1 } }] },
+        { q: "在 2099 年的有限資源下，你的新藥開發方針是？", options: [{ t: "精確運用真實世界資料（RWE），穩紮穩打完成研究。", w: { causal: 3, I: 2, T: 2 } }, { t: "尋找 AI 過濾工具，快速找出最有潛力的藥物分子。", w: { innovation: 3, N: 2, P: 2 } }] },
+        { q: "面對各國領袖，你認為說服他們開發『覺醒藥物』的關鍵是？", options: [{ t: "展現強大的資料組織力與商業智能（BI）。", w: { leadership: 3, E: 3, J: 1 } }, { t: "運用因果推論（CI）揭露 AI 主宰下的思維真相。", w: { innovation: 3, N: 3, P: 1 } }] }
     ];
 
     let currentStep = 0;
     let userAnswers = new Array(questions.length).fill(null);
+    
+    // 全域變數：儲存第一次測驗結束的時間點
+    let globalEndTime = null;
+    let timerItv = null;
 
-    window.begin = () => { 
-        document.getElementById('start').classList.add('hidden'); 
-        document.getElementById('quiz').classList.remove('hidden'); 
-        render(); 
+    window.begin = () => {
+        document.getElementById('start').classList.add('hidden');
+        document.getElementById('quiz').classList.remove('hidden');
+        render();
     };
 
     function render() {
         const q = questions[currentStep];
-        document.getElementById('q-text').innerText = `STEP ${currentStep + 1}. ${q.q}`;
-        document.getElementById('bar').style.width = ((currentStep) / questions.length) * 100 + "%";
+        const qTextEl = document.getElementById('q-text');
+        
+        qTextEl.innerHTML = `
+            <div style="font-size: 0.9rem; color: var(--accent-warm); font-family: 'Cinzel'; margin-bottom: 15px; letter-spacing: 4px; font-weight: 700;">
+                ✧ 魔法試煉 ${currentStep + 1} / 5 ✧
+            </div>
+            <div style="line-height: 1.7; font-size: 1.15rem; color: #fff; font-weight: 900; text-shadow: 1px 1px 2px #000;">${q.q}</div>
+        `;
+
+        document.getElementById('bar').style.width = ((currentStep + 1) / questions.length) * 100 + "%";
         const box = document.getElementById('options');
         box.innerHTML = '';
         q.options.forEach((o, i) => {
@@ -285,128 +374,129 @@
             b.onclick = () => selectOption(i);
             box.appendChild(b);
         });
-        document.getElementById('prev-btn').style.visibility = currentStep > 0 ? 'visible' : 'hidden';
     }
 
     function selectOption(idx) {
         userAnswers[currentStep] = idx;
         render();
-        setTimeout(() => { 
-            if (currentStep < questions.length - 1) { 
-                currentStep++; 
-                render(); 
-            } else { 
-                startProcessing(); 
-            } 
-        }, 400);
+        setTimeout(() => {
+            if (currentStep < questions.length - 1) {
+                currentStep++;
+                render();
+            } else {
+                startProcessing();
+            }
+        }, 300);
     }
 
-    window.prevStep = () => { if (currentStep > 0) { currentStep--; render(); } }
+    window.prevStep = () => { 
+        if (currentStep > 0) { currentStep--; render(); } 
+        else { document.getElementById('quiz').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); }
+    }
 
     function startProcessing() {
         document.getElementById('quiz').classList.add('hidden');
         document.getElementById('processing').classList.remove('hidden');
+        let p = 0;
         const bar = document.getElementById('long-bar');
-        let currentProgress = 0;
-        const totalTime = 3000; 
-        const startTime = Date.now();
-        function step() {
-            const elapsed = Date.now() - startTime;
-            if (elapsed >= totalTime) { bar.style.width = '100%'; setTimeout(showResult, 600); return; }
-            const jump = Math.random() > 0.6 ? Math.random() * 35 : Math.random() * 5;
-            currentProgress = Math.min(95, currentProgress + jump);
-            bar.style.width = currentProgress + '%';
-            setTimeout(step, 150 + Math.random() * 350);
-        }
-        step();
+        const itv = setInterval(() => {
+            p += Math.random() * 18;
+            if (p >= 100) { p = 100; clearInterval(itv); setTimeout(showResult, 600); }
+            bar.style.width = p + '%';
+        }, 180);
     }
 
-    window.resetTest = () => {
-        currentStep = 0;
-        userAnswers = new Array(questions.length).fill(null);
-        document.getElementById('result').classList.add('hidden');
-        document.getElementById('start').classList.remove('hidden');
-        document.getElementById('long-bar').style.width = '0%';
-        document.getElementById('bar').style.width = '0%';
+    const mbtiMap = {
+        "ENTJ": { 
+            t: "覺醒戰略導師", 
+            s: "你是學院中最有威望的領導者。但在這個 AI 假象橫行的世界，你的果斷有時會讓你落入偽裝的因果陷阱中。", 
+            g: "你需要修行『因果推論力 (CI)』。課程將教你如何識破資料中的混雜因子，讓你帶領人類開發藥物時，每一張決策牌都打在真相上。"
+        },
+        "INTJ": { 
+            t: "因果藍圖大魔導", 
+            s: "你的思維深不可測，能在腦中模擬平行宇宙。但要把魔法帶入現實，還需要掌握真實世界的資料。", 
+            g: "你需要學習『AI 應用與真實世界資料』。實戰課程將教你如何將高維度的邏輯藍圖轉化為拯救全人類的臨床新藥成果。"
+        },
+        "INTP": { 
+            t: "靈魂真相解析官", 
+            s: "你天生就能研究 AI 的運作邏輯，識破假象，是學院最強的資料防線。但要說服領袖，你需要更有溫度的魔法表達。", 
+            g: "你需要補強『商業智能 (BI) 與提案魅力』。在提案工作坊中，你將學會如何將深奧的分析結果，轉化為讓人心服口服的救世建議書。"
+        },
+        "ENFP": { 
+            t: "奇蹟願景召喚師", 
+            s: "你的靈感能創造驚喜，讓死板的資料展現出生機。但魔法需要堅實的陣地，靈感也需要嚴謹的科學驗證。", 
+            g: "你需要修行『新藥開發邏輯與分析思維』。學習完整的新藥研發流程，將讓你天馬行空的創意變成一劑劑能穩定喚醒全人類的救世良藥。"
+        }
     };
 
     function showResult() {
         document.getElementById('processing').classList.add('hidden');
-        const resEl = document.getElementById('result');
-        resEl.classList.remove('hidden');
-        
-        let mbtiScores = { E:0, I:0, N:0, S:0, T:0, F:0, J:0, P:0 };
-        let dimScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
-        
+        document.getElementById('result').classList.remove('hidden');
+
+        // 初始化倒數計時（如果這是第一次做完）
+        if (!globalEndTime) {
+            globalEndTime = Date.now() + 86400000; // 24 小時
+            startBackgroundTimer(); // 啟動背景更新
+        }
+
+        let mScores = { E:0, I:0, N:0, S:0, T:0, F:0, J:0, P:0 };
+        let dScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
+
         userAnswers.forEach((ansIdx, qIdx) => {
-            if (ansIdx === null || !questions[qIdx] || !questions[qIdx].options[ansIdx]) return;
-            const weight = questions[qIdx].options[ansIdx].w;
-            for(let k in weight) {
-                if(mbtiScores.hasOwnProperty(k)) mbtiScores[k] += weight[k];
-                if(dimScores.hasOwnProperty(k)) dimScores[k] += weight[k];
+            const weights = questions[qIdx].options[ansIdx].w;
+            for(let k in weights) {
+                if(mScores.hasOwnProperty(k)) mScores[k] += weights[k];
+                if(dScores.hasOwnProperty(k)) dScores[k] += weights[k];
             }
         });
 
-        let code = (mbtiScores.E >= mbtiScores.I ? "E" : "I") + (mbtiScores.N >= mbtiScores.S ? "N" : "S") + (mbtiScores.T >= mbtiScores.F ? "T" : "F") + (mbtiScores.J >= mbtiScores.P ? "J" : "P");
+        const code = (mScores.E >= mScores.I ? "E" : "I") + (mScores.N >= mScores.S ? "N" : "S") + (mScores.T >= mScores.F ? "T" : "F") + (mScores.J >= mScores.P ? "J" : "P");
         document.getElementById('res-code').innerText = code;
+        const info = mbtiMap[code] || mbtiMap["ENTJ"];
+        document.getElementById('res-title').innerText = info.t;
+        document.getElementById('res-story').innerText = info.s;
+        document.getElementById('res-growth').innerText = info.g;
 
-        const resultsMap = {
-            "ENTJ": { t: "AI 戰略總指揮", s: "你是天生的決策領袖。在複雜的數據迷霧中，你能一眼看穿通往解藥的最短路徑。你的存在是團隊在商戰與科研中的定海神針。", r: "<b>你的戰位：</b> 團隊中的<b>策略領航員</b>。<br><b>營隊強化：</b> 本次課程將為你解鎖<b>『醫藥 AI 戰略加速引擎』</b>。" },
-            "INTJ": { t: "因果真相建築師", s: "你擁有極強的全局視野與預見力。你視數據為藍圖，利用邏輯與直覺構建完美的開發體系，是團隊中最深不可測的幕後推手。", r: "<b>你的戰位：</b> 團隊中的<b>首席架構師</b>。<br><b>營隊強化：</b> 我們將提供<b>『大數據因果分析技術』</b>課程。" },
-            "INTP": { t: "數據偵探解析官", s: "你拒絕盲從。對你而言，數據背後的運作規律才是真相。你冷靜拆解每一項 AI 預測，是確保計畫不被假象誤導的最強守門員。", r: "<b>你的戰位：</b> 團隊中的<b>深度解析官</b>。<br><b>營隊強化：</b> 我們將提供<b>『因果推論實戰手冊』</b>。" },
-            "ENFP": { t: "跨界創新預言家", s: "你是團隊的靈感源泉。你擅長發現數據中隱藏的意義與機會，能將冷冰冰的科學發現轉化為改變世界的願景。", r: "<b>你的戰位：</b> 團隊中的<b>創新推廣者</b>。<br><b>營隊強化：</b> 學習如何將<b>『AI 數據轉化為戰略說服力』</b>。" }
-        };
+        const spec = document.getElementById('match-spectrum');
+        const types = ["ENTJ", "INFP", "INTJ", "ENFP", "INTP"].filter(t => t !== code).sort(() => Math.random() - 0.5).slice(0,3);
+        spec.innerHTML = `
+            <div class="match-row">
+                <span style="font-family:'Cinzel'; font-size:0.85rem; width:55px; color:var(--accent-warm); font-weight:900;">${code}</span>
+                <div class="match-bar-bg"><div class="match-bar-fill" style="width:98%; background:var(--accent-warm);"></div></div>
+                <span style="font-size:0.85rem; color:var(--accent-warm); font-weight:900;">98%</span>
+            </div>`;
+        types.forEach(t => {
+            const p = Math.floor(Math.random() * 15) + 75;
+            spec.innerHTML += `
+                <div class="match-row">
+                    <span style="font-family:'Cinzel'; font-size:0.85rem; width:55px; color:var(--text-bright);">${t}</span>
+                    <div class="match-bar-bg"><div class="match-bar-fill" style="width:${p}%"></div></div>
+                    <span style="font-size:0.85rem; color:var(--text-soft);">${p}%</span>
+                </div>`;
+        });
 
-        const f = resultsMap[code] || { 
-            t: "覺醒計畫先鋒", 
-            s: "你是全能型的戰略人才。在算力與深度邏輯之間，你掌握了完美的平衡。這種多元視角在未來醫界是極其珍稀且被高度渴求的資質。", 
-            r: "<b>你的戰位：</b> 團隊中的<b>技術協調官</b>。<br><b>營隊強化：</b> 本次營隊將提供全方位的<b>『藥物開發大師地圖』</b>。" 
-        };
-
-        document.getElementById('res-title').innerText = f.t;
-        document.getElementById('res-story').innerHTML = f.s;
-        document.getElementById('res-classroom').innerHTML = f.r;
-
-        requestAnimationFrame(() => {
-            const normalize = (val) => Math.min(95, Math.max(48, val * 12)); 
-            drawRadar({
-                innovation: normalize(dimScores.innovation), 
-                logic: normalize(dimScores.logic), 
-                leadership: normalize(dimScores.leadership), 
-                stability: normalize(dimScores.stability), 
-                causal: normalize(dimScores.causal)
-            });
-
-            const matchBox = document.getElementById('res-match');
-            let mHTML = `<div class="match-tag">核心原型: <b>${code} 98.4%</b></div>`;
-            ["INTJ", "ENTJ", "INTP", "ENFP"].filter(t => t !== code).slice(0,2).forEach(t => { mHTML += `<div class="match-tag">${t} <b>${Math.floor(Math.random()*15+70)}%</b></div>`; });
-            matchBox.innerHTML = mHTML;
+        drawRadar({
+            innovation: Math.min(95, 45 + dScores.innovation * 12),
+            logic: Math.min(95, 45 + dScores.logic * 12),
+            leadership: Math.min(95, 40 + dScores.leadership * 12),
+            stability: Math.min(95, 40 + dScores.stability * 12),
+            causal: Math.min(95, 45 + dScores.causal * 12)
         });
     }
 
-    // --- 五角圖優化：自適應寬度與字體防切邊 ---
     function drawRadar(data) {
         const canvas = document.getElementById('radarChart');
         const ctx = canvas.getContext('2d');
-        const container = canvas.parentElement;
-        const containerWidth = container.offsetWidth;
-        const size = Math.min(containerWidth, 360);
-        
+        const size = 260;
         const dpr = window.devicePixelRatio || 2;
-        canvas.width = size * dpr; 
-        canvas.height = size * dpr;
-        canvas.style.width = size + 'px'; 
-        canvas.style.height = size + 'px';
+        canvas.width = size * dpr; canvas.height = size * dpr;
+        canvas.style.width = size + 'px'; canvas.style.height = size + 'px';
         ctx.scale(dpr, dpr);
-
-        const centerX = size / 2, centerY = size / 2;
-        // 手機版自動縮小圖形，留更多空間給字體
-        const radius = size * (size < 340 ? 0.23 : 0.27); 
-        const labels = ["創新直覺", "邏輯推理", "社交領導", "執行穩定", "因果洞察"];
+        const centerX = size / 2, centerY = size / 2, radius = 70;
+        const labels = ["核心創新力", "邏輯分析力", "魔法領導力", "技術感知力", "因果洞察力"];
         const values = [data.innovation, data.logic, data.leadership, data.stability, data.causal];
-
         ctx.clearRect(0, 0, size, size);
-        ctx.strokeStyle = "rgba(0, 242, 254, 0.3)"; ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(229, 192, 123, 0.2)"; 
         for (let j = 1; j <= 5; j++) {
             ctx.beginPath();
             const r = (radius / 5) * j;
@@ -422,70 +512,69 @@
             const r = (values[i] / 100) * radius;
             ctx.lineTo(centerX + r * Math.cos(a), centerY + r * Math.sin(a));
         }
-        ctx.closePath(); ctx.fillStyle = "rgba(0, 242, 254, 0.45)"; ctx.fill(); ctx.strokeStyle = "var(--p1)"; ctx.lineWidth = 3; ctx.stroke();
-        
-        const fontSize = size < 340 ? 12 : 14;
-        ctx.fillStyle = "#ffffff"; ctx.font = `bold ${fontSize}px 'Noto Sans TC'`;
+        ctx.closePath();
+        ctx.fillStyle = "rgba(229, 192, 123, 0.4)"; ctx.fill();
+        ctx.strokeStyle = "#e5c07b"; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = "#fff"; ctx.font = "bold 11px 'Noto Sans TC'"; ctx.textAlign = "center";
         for (let i = 0; i < 5; i++) {
             const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
-            const textDist = radius + (size < 340 ? 18 : 24); 
-            const tx = centerX + textDist * Math.cos(a);
-            const ty = centerY + textDist * Math.sin(a);
-            
-            // 手機版動態對齊修正
-            if (i === 0) { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; }
-            else if (i === 1) { ctx.textAlign = "left"; ctx.textBaseline = "middle"; }
-            else if (i === 2) { ctx.textAlign = "left"; ctx.textBaseline = "top"; }
-            else if (i === 3) { ctx.textAlign = "right"; ctx.textBaseline = "top"; }
-            else if (i === 4) { ctx.textAlign = "right"; ctx.textBaseline = "middle"; }
+            const tx = centerX + (radius + 24) * Math.cos(a);
+            const ty = centerY + (radius + 24) * Math.sin(a) + 4;
             ctx.fillText(labels[i], tx, ty);
         }
     }
 
-    // --- 倒數計時永久鎖定核心邏輯 ---
-    const TOTAL_TIME = 86400; 
-    let timerInterval = null;
+    window.resetTest = () => { currentStep = 0; userAnswers.fill(null); document.getElementById('result').classList.add('hidden'); document.getElementById('start').classList.remove('hidden'); };
 
-    function startTimer() {
-        if (timerInterval) return;
-        
-        let targetTimestamp = localStorage.getItem('awakening_expiry_timestamp');
-        if (!targetTimestamp) {
-            targetTimestamp = Date.now() + (TOTAL_TIME * 1000);
-            localStorage.setItem('awakening_expiry_timestamp', targetTimestamp);
-        } else {
-            targetTimestamp = parseInt(targetTimestamp);
-        }
-        
-        const tick = () => {
+    function startBackgroundTimer() {
+        if(timerItv) clearInterval(timerItv);
+        const updateUI = () => {
+            if (!globalEndTime) return;
             const now = Date.now();
-            const remaining = Math.floor((targetTimestamp - now) / 1000);
-            const el = document.getElementById('timer');
-            
-            if (remaining <= 0) { 
-                if(el) el.innerText = "00:00:00"; 
-                clearInterval(timerInterval); 
-                return; 
-            }
-            
-            const h = Math.floor(remaining / 3600);
-            const m = Math.floor((remaining % 3600) / 60);
-            const s = remaining % 60;
-            
-            if(el) el.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            let diff = Math.floor((globalEndTime - now) / 1000);
+            if (diff <= 0) { diff = 0; clearInterval(timerItv); }
+            const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
+            const timerEl = document.getElementById('timer');
+            if (timerEl) { timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
         };
-
-        tick(); 
-        timerInterval = setInterval(tick, 1000);
+        updateUI();
+        timerItv = setInterval(updateUI, 1000);
     }
 
-    window.openCoupon = () => { document.getElementById('coupon-modal').style.display = 'flex'; startTimer(); };
+    window.openCoupon = () => { 
+        document.getElementById('coupon-modal').style.display = 'flex'; 
+        const diff = Math.floor((globalEndTime - Date.now()) / 1000);
+        const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
+        document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    };
+
     window.closeModal = () => { document.getElementById('coupon-modal').style.display = 'none'; };
     window.copyCoupon = () => {
-        const dummy = document.createElement("textarea"); document.body.appendChild(dummy);
-        dummy.value = "phdcenter_causal888"; dummy.select(); document.execCommand("copy"); document.body.removeChild(dummy);
-        alert("代碼已複製！即將前往報名系統..."); window.open('https://www.phdcenter.org.tw/2026-ai-camp/', '_blank');
+        const dummy = document.createElement('textarea'); dummy.value = "phdcenter_causal888";
+        document.body.appendChild(dummy); dummy.select(); document.execCommand('copy');
+        document.body.removeChild(dummy);
+        alert('代碼已複製！魔法學院傳送門即將開啟。');
     };
+
+    const users = ["林同學", "陳同學", "張同學", "王同學", "李同學", "蔡同學", "高同學", "周同學", "吳同學", "趙同學"];
+    const cities = ["台北市", "台中市", "高雄市", "台南市", "新竹市", "桃園市"];
+    
+    function triggerToast() {
+        const nextTime = 45000 + Math.random() * 30000; 
+        setTimeout(() => {
+            const n = users[Math.floor(Math.random()*users.length)];
+            const c = cities[Math.floor(Math.random()*cities.length)];
+            const m = Math.floor(Math.random()*3) + 1;
+            document.getElementById('toast-initial').innerText = n[0];
+            document.getElementById('toast-content').innerText = `${n} 已獲得入學資格`;
+            document.getElementById('toast-sub').innerText = `剛剛 · 來自${c}`;
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 5000);
+            triggerToast();
+        }, nextTime);
+    }
+    triggerToast();
 </script>
 </body>
 </html>
