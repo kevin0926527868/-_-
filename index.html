@@ -34,12 +34,13 @@
             justify-content: center; 
             align-items: flex-start; 
             min-height: 100vh;
-            padding: 20px 0;
+            padding: 15px 0;
             overflow-x: hidden;
+            line-height: 1.5;
         }
 
         .card { 
-            width: 96%; 
+            width: 94%; 
             max-width: 480px; 
             background: rgba(26, 38, 31, 0.98); 
             padding: 2.5rem 1.5rem; 
@@ -64,9 +65,9 @@
         }
 
         h1 { 
-            font-size: 1.4rem; 
+            font-size: clamp(1.2rem, 5vw, 1.45rem); 
             color: var(--accent-warm); 
-            margin-bottom: 1.8rem; 
+            margin-bottom: 1.5rem; 
             font-family: 'Cinzel', 'Noto Sans TC', serif;
             font-weight: 900;
             line-height: 1.4;
@@ -75,7 +76,7 @@
         }
 
         .mbti-code { 
-            font-size: clamp(3rem, 12vw, 4rem); 
+            font-size: clamp(2.5rem, 12vw, 4rem); 
             font-weight: 900; 
             color: var(--accent-warm); 
             margin: 10px 0; 
@@ -85,7 +86,7 @@
         }
 
         #q-text-container {
-            min-height: 130px; 
+            min-height: 110px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -96,20 +97,22 @@
         .option { 
             display: block; 
             width: 100%; 
-            padding: 1.15rem 0.8rem; 
+            padding: 1.1rem 1.2rem; 
             margin: 12px 0; 
-            background: rgba(255, 255, 255, 0.04); 
-            border: 1px solid var(--primary); 
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1.5px solid var(--primary); 
+            border-radius: 4px;
             color: var(--text-bright); 
-            text-align: center; 
+            text-align: left; 
             cursor: pointer; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             font-size: 0.95rem; 
             font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal; 
+            word-wrap: break-word;
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.5;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
@@ -117,12 +120,12 @@
             background: var(--primary); 
             color: #fff;
             border-color: var(--accent-warm);
-            transform: translateY(-2px);
+            transform: scale(1.02);
             box-shadow: 0 5px 20px rgba(66, 117, 103, 0.4);
         }
 
         .option.selected { 
-            background: rgba(229, 192, 123, 0.15); 
+            background: rgba(229, 192, 123, 0.2); 
             border-color: var(--accent-warm);
             color: var(--accent-warm);
             box-shadow: 0 0 20px var(--magic-glow);
@@ -137,7 +140,7 @@
             width: 100%;
             text-align: left; 
             background: rgba(0, 0, 0, 0.4); 
-            padding: 20px; 
+            padding: 1.2rem; 
             border-radius: 2px;
             border-left: 3px solid var(--primary);
             margin-top: 15px; 
@@ -156,14 +159,14 @@
             background: var(--accent-warm); 
             color: var(--primary-dark); 
             border: none; 
-            padding: 1.3rem; 
+            padding: 1.2rem; 
             font-size: 1.1rem; 
             font-weight: 900; 
             width: 100%; 
             cursor: pointer; 
             margin-top: 25px; 
             transition: 0.3s;
-            border-radius: 2px;
+            border-radius: 4px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             text-decoration: none;
             display: inline-block;
@@ -179,45 +182,51 @@
             50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 15px var(--accent-warm); color: var(--accent-warm); }
         }
 
+        /* 修正後的極簡左下角通知 - 更小且不干擾 */
         .toast {
-            position: fixed; bottom: 25px; left: 25px; 
-            background: #1a2422; 
+            position: fixed; bottom: 10px; left: 10px; 
+            background: rgba(26, 36, 34, 0.95); 
             border: 1px solid var(--primary);
-            padding: 12px 18px; border-radius: 2px; display: flex; align-items: center;
-            gap: 12px; z-index: 5000; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            box-shadow: 0 15px 45px rgba(0,0,0,0.8);
-            transform: translateX(-180%);
+            padding: 6px 12px; border-radius: 4px; display: flex; align-items: center;
+            gap: 8px; z-index: 5000; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            max-width: 200px;
+            transform: translateX(-150%);
         }
         .toast.show { transform: translateX(0); }
         .toast-initial { 
-            width: 35px; height: 35px; background: var(--primary); color: #fff; 
+            width: 25px; height: 25px; background: var(--primary); color: #fff; 
             border-radius: 2px; display: flex; align-items: center; justify-content: center; 
-            font-weight: 900; flex-shrink: 0; font-size: 0.9rem;
+            font-weight: 900; flex-shrink: 0; font-size: 0.7rem;
         }
 
         .chart-container { width: 100%; display: flex; justify-content: center; margin: 15px 0; }
+        #radarChart { max-width: 100%; height: auto; }
         
-        .story-text { font-size: 0.95rem; line-height: 1.8; color: var(--text-soft); text-align: left; margin-bottom: 2.2rem; }
+        .story-text { font-size: 0.95rem; line-height: 1.7; color: var(--text-soft); text-align: left; margin-bottom: 2rem; }
         .match-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; width: 100%; }
-        .match-bar-bg { flex-grow: 1; height: 8px; background: rgba(0,0,0,0.7); border-radius: 4px; overflow: hidden; }
+        .match-bar-bg { flex-grow: 1; height: 6px; background: rgba(0,0,0,0.7); border-radius: 3px; overflow: hidden; }
         .match-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 0%; transition: 2s cubic-bezier(0.2, 1, 0.3, 1); }
 
         .coupon-box {
             background: rgba(0, 0, 0, 0.6); 
-            padding: 22px 10px; 
+            padding: 15px 10px; 
             border: 1px dashed var(--accent-warm); 
-            margin: 20px 0; 
+            margin: 15px 0; 
             font-family: 'Cinzel', serif; 
             font-weight: 900; 
             color: var(--accent-warm); 
-            letter-spacing: 4px; 
-            font-size: clamp(1.1rem, 4.5vw, 1.5rem); 
+            letter-spacing: 3px; 
+            font-size: clamp(1rem, 4.5vw, 1.3rem); 
             box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
             word-break: break-all;
             overflow-wrap: break-word;
             line-height: 1.4;
             max-width: 100%;
         }
+
+        .urgent-pulse { animation: pulse 2s infinite; color: var(--accent-warm); font-weight: 900; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -225,7 +234,7 @@
 <div class="card" id="app">
     <!-- 開始頁面 -->
     <div id="start">
-        <div style="color: var(--primary-light); font-weight: 900; margin-bottom: 12px; font-family: 'Cinzel'; letter-spacing: 6px; font-size: 0.85rem; opacity: 0.8;">✧ THE CAUSAL MAGIC ✧</div>
+        <div style="color: var(--primary-light); font-weight: 900; margin-bottom: 12px; font-family: 'Cinzel'; letter-spacing: 6px; font-size: 0.8rem; opacity: 0.8;">✧ THE CAUSAL MAGIC ✧</div>
         <h1>轉生被 AI 主宰的世界：<br>你是唯一的覺醒者嗎？</h1>
         
         <div class="story-text">
@@ -235,13 +244,13 @@
             「AI 說放棄努力，因為讀書會導致自殺率。」<br><br>
             在一道迷霧的金光中，你推開了<b>「因果魔法學院」</b>的大門。<br>
             五位導師在古雅的木屋中驚喜地盯著你：<br>
-            <div class="magic-fade" style="text-align: center; margin-top: 15px; font-size: 1.1rem;">「咦，你能看見我們嗎？」</div><br>
+            <div class="magic-fade" style="text-align: center; margin-top: 10px; font-size: 1.1rem; font-weight: 900;">「咦，你能看見我們嗎？」</div><br>
             你，就是僅存有自我意識的人類。<br>
             準備好學習因果魔法，拯救人類了嗎？
         </div>
 
         <button class="cta-btn" onclick="begin()">啟動人格鑑定試煉</button>
-        <div style="font-size: 0.8rem; color: var(--text-soft); margin-top: 30px; letter-spacing: 1px; font-weight: 700; opacity: 0.7;">
+        <div style="font-size: 0.75rem; color: var(--text-soft); margin-top: 30px; letter-spacing: 1px; font-weight: 700; opacity: 0.7;">
             目前已有 5,482 位覺醒勇者通過評定 ✧
         </div>
     </div>
@@ -253,19 +262,19 @@
             <div id="q-text"></div>
         </div>
         <div id="options" style="width: 100%;"></div>
-        <div style="margin-top: 25px;">
-            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:var(--text-soft); cursor:pointer; font-size:0.85rem; font-weight:700;">← 返回上一個決策點</button>
+        <div style="margin-top: 20px;">
+            <button onclick="prevStep()" id="prev-btn" style="background:none; border:none; color:var(--text-soft); cursor:pointer; font-size:0.8rem; font-weight:700;">← 返回上一個決策點</button>
         </div>
     </div>
 
     <!-- 分析中頁面 -->
     <div id="processing" class="hidden">
-        <div style="margin: 60px 0; width: 100%;">
-            <div class="mbti-code" style="font-size: 1.3rem; margin-bottom: 25px; color: var(--accent-warm);">因果線索編織中...</div>
+        <div style="margin: 50px 0; width: 100%;">
+            <div class="mbti-code" style="font-size: 1.2rem; margin-bottom: 25px; color: var(--accent-warm);">因果線索編織中...</div>
             <div style="height: 6px; background: rgba(0,0,0,0.7); width: 100%; position: relative; border-radius: 4px; overflow: hidden;">
                 <div id="long-bar" style="position: absolute; height: 100%; background: var(--accent-warm); width: 0%; transition: 0.4s;"></div>
             </div>
-            <p style="margin-top: 35px; font-size: 0.95rem; color: var(--primary-light); letter-spacing: 2px; font-weight: 700; line-height: 1.8;">
+            <p style="margin-top: 35px; font-size: 0.9rem; color: var(--primary-light); letter-spacing: 2px; font-weight: 700; line-height: 1.8;">
                 正在從您的決策印記中<br>提煉因果魔法頻譜...
             </p>
         </div>
@@ -273,12 +282,20 @@
 
     <!-- 結果頁面 -->
     <div id="result" class="hidden">
-        <div style="color: var(--primary-light); font-size: 0.85rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 5px;">✧ 真相顯現：覺醒共鳴度 99.8% ✧</div>
+        <div style="color: var(--primary-light); font-size: 0.8rem; font-weight: 900; letter-spacing: 3px; margin-bottom: 5px;">✧ 真相顯現：覺醒共鳴度 99.8% ✧</div>
         <div class="mbti-code" id="res-code"></div>
-        <h2 id="res-title" style="color:var(--accent-warm); margin-bottom: 15px; font-size: 1.6rem; font-weight: 900; font-family: 'Cinzel', serif;"></h2>
+        <h2 id="res-title" style="color:var(--accent-warm); margin-bottom: 12px; font-size: 1.5rem; font-weight: 900; font-family: 'Cinzel', serif;"></h2>
         
         <div class="chart-container">
             <canvas id="radarChart"></canvas>
+        </div>
+
+        <!-- 優惠碼區塊：直接顯示 -->
+        <div class="section-box" style="border-left-color: var(--accent-warm); text-align: center;">
+            <p style="font-size: 0.85rem; color: var(--text-bright); margin-bottom: 5px;">您的特質已獲導師認認，代碼已鎖定：</p>
+            <div class="coupon-box">phdcenter_causal888</div>
+            <div id="timer-result" style="color: var(--text-bright); font-family: 'Quicksand', sans-serif; font-weight: 900; font-size: 1.3rem; margin-bottom: 5px; letter-spacing: 3px;">24:00:00</div>
+            <p class="urgent-pulse" style="font-size: 0.8rem; margin: 0;">⚠️ 因果魔法學院目前僅剩 3 個入學名額</p>
         </div>
 
         <div class="section-box">
@@ -296,38 +313,17 @@
             <div id="res-growth" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-bright);"></div>
         </div>
 
-        <button class="cta-btn" onclick="openCoupon()">領取營隊限時優惠碼</button>
-        <button onclick="resetTest()" style="background:none; border:none; color:var(--text-soft); margin-top:25px; cursor:pointer; font-size:0.9rem; font-weight:700;">重新感知覺醒位階</button>
-    </div>
-</div>
-
-<!-- 彈窗 -->
-<div class="modal-overlay" id="coupon-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); display: none; justify-content: center; align-items: center; z-index: 6000; padding: 20px;">
-    <div class="modal-content" style="background: #121d1a; padding: 40px 25px; border: 2px solid var(--accent-warm); border-radius: 4px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 0 80px rgba(0, 0, 0, 1);">
-        <h2 style="color:var(--accent-warm); font-family: 'Cinzel', serif; font-size: 1.7rem; margin-top: 0; text-shadow: 0 0 15px var(--magic-glow);">最後覺醒席次確認</h2>
-        
-        <p style="color: var(--text-bright); font-size: 1rem; margin-bottom: 20px; line-height: 1.7;">
-            您的覺醒特質已獲得因果魔法學院導師認可。<br>
-            <span style="color: var(--primary-dark); font-weight: 900; background: var(--accent-warm); padding: 4px 12px; border-radius: 2px; display: inline-block; margin-top: 10px;">⚠️ 學院目前僅剩 3 個入學名額</span>
-        </p>
-        
-        <div class="coupon-box">
-            phdcenter_causal888
-        </div>
-        
-        <div id="timer" style="color: var(--text-bright); font-family: 'Quicksand', sans-serif; font-weight: 900; font-size: 1.4rem; margin-bottom: 30px; letter-spacing: 4px;">24:00:00</div>
-        
         <a href="https://www.phdcenter.org.tw/2026-ai-camp/" target="_blank" class="cta-btn" onclick="copyCoupon()">🔥 最後一批優惠名額｜立即卡位</a>
-
-        <button onclick="closeModal()" style="background:none; border:none; color:var(--text-soft); margin-top:20px; cursor:pointer; font-size:0.8rem; font-weight:700; display:block; width:100%;">返回測驗結果</button>
+        
+        <button onclick="resetTest()" style="background:none; border:none; color:var(--text-soft); margin-top:25px; cursor:pointer; font-size:0.85rem; font-weight:700;">重新感知覺醒位階</button>
     </div>
 </div>
 
 <div class="toast" id="toast">
     <div class="toast-initial" id="toast-initial">陳</div>
-    <div style="font-size: 0.85rem; color: #fff; line-height: 1.4; font-weight: 700;">
+    <div style="font-size: 0.65rem; color: #fff; line-height: 1.3; font-weight: 700;">
         <span id="toast-content">陳同學 已獲得入學資格</span>
-        <div style="font-size: 0.75rem; color: var(--text-soft); font-weight: 700;" id="toast-sub">剛剛 · 來自新北市</div>
+        <div style="font-size: 0.55rem; color: var(--text-soft); font-weight: 400;" id="toast-sub">剛剛 · 來自新北市</div>
     </div>
 </div>
 
@@ -342,8 +338,6 @@
 
     let currentStep = 0;
     let userAnswers = new Array(questions.length).fill(null);
-    
-    // 全域變數：儲存第一次測驗結束的時間點
     let globalEndTime = null;
     let timerItv = null;
 
@@ -358,10 +352,10 @@
         const qTextEl = document.getElementById('q-text');
         
         qTextEl.innerHTML = `
-            <div style="font-size: 0.9rem; color: var(--accent-warm); font-family: 'Cinzel'; margin-bottom: 15px; letter-spacing: 4px; font-weight: 700;">
+            <div style="font-size: 0.85rem; color: var(--accent-warm); font-family: 'Cinzel'; margin-bottom: 15px; letter-spacing: 3px; font-weight: 700;">
                 ✧ 魔法試煉 ${currentStep + 1} / 5 ✧
             </div>
-            <div style="line-height: 1.7; font-size: 1.15rem; color: #fff; font-weight: 900; text-shadow: 1px 1px 2px #000;">${q.q}</div>
+            <div style="line-height: 1.6; font-size: 1.15rem; color: #fff; font-weight: 900; text-shadow: 1px 1px 2px #000;">${q.q}</div>
         `;
 
         document.getElementById('bar').style.width = ((currentStep + 1) / questions.length) * 100 + "%";
@@ -433,16 +427,16 @@
         document.getElementById('processing').classList.add('hidden');
         document.getElementById('result').classList.remove('hidden');
 
-        // 初始化倒數計時（如果這是第一次做完）
         if (!globalEndTime) {
-            globalEndTime = Date.now() + 86400000; // 24 小時
-            startBackgroundTimer(); // 啟動背景更新
+            globalEndTime = Date.now() + 86400000; 
+            startBackgroundTimer(); 
         }
 
         let mScores = { E:0, I:0, N:0, S:0, T:0, F:0, J:0, P:0 };
         let dScores = { innovation:0, logic:0, leadership:0, stability:0, causal:0 };
 
         userAnswers.forEach((ansIdx, qIdx) => {
+            if (ansIdx === null || !questions[qIdx].options[ansIdx]) return;
             const weights = questions[qIdx].options[ansIdx].w;
             for(let k in weights) {
                 if(mScores.hasOwnProperty(k)) mScores[k] += weights[k];
@@ -461,17 +455,17 @@
         const types = ["ENTJ", "INFP", "INTJ", "ENFP", "INTP"].filter(t => t !== code).sort(() => Math.random() - 0.5).slice(0,3);
         spec.innerHTML = `
             <div class="match-row">
-                <span style="font-family:'Cinzel'; font-size:0.85rem; width:55px; color:var(--accent-warm); font-weight:900;">${code}</span>
+                <span style="font-family:'Cinzel'; font-size:0.7rem; width:50px; color:var(--accent-warm); font-weight:900;">${code}</span>
                 <div class="match-bar-bg"><div class="match-bar-fill" style="width:98%; background:var(--accent-warm);"></div></div>
-                <span style="font-size:0.85rem; color:var(--accent-warm); font-weight:900;">98%</span>
+                <span style="font-size:0.7rem; color:var(--accent-warm); font-weight:900;">98%</span>
             </div>`;
         types.forEach(t => {
             const p = Math.floor(Math.random() * 15) + 75;
             spec.innerHTML += `
                 <div class="match-row">
-                    <span style="font-family:'Cinzel'; font-size:0.85rem; width:55px; color:var(--text-bright);">${t}</span>
+                    <span style="font-family:'Cinzel'; font-size:0.7rem; width:50px; color:var(--text-bright);">${t}</span>
                     <div class="match-bar-bg"><div class="match-bar-fill" style="width:${p}%"></div></div>
-                    <span style="font-size:0.85rem; color:var(--text-soft);">${p}%</span>
+                    <span style="font-size:0.7rem; color:var(--text-soft);">${p}%</span>
                 </div>`;
         });
 
@@ -534,26 +528,17 @@
             let diff = Math.floor((globalEndTime - now) / 1000);
             if (diff <= 0) { diff = 0; clearInterval(timerItv); }
             const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
-            const timerEl = document.getElementById('timer');
+            const timerEl = document.getElementById('timer-result');
             if (timerEl) { timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
         };
         updateUI();
         timerItv = setInterval(updateUI, 1000);
     }
 
-    window.openCoupon = () => { 
-        document.getElementById('coupon-modal').style.display = 'flex'; 
-        const diff = Math.floor((globalEndTime - Date.now()) / 1000);
-        const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
-        document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    };
-
-    window.closeModal = () => { document.getElementById('coupon-modal').style.display = 'none'; };
     window.copyCoupon = () => {
         const dummy = document.createElement('textarea'); dummy.value = "phdcenter_causal888";
         document.body.appendChild(dummy); dummy.select(); document.execCommand('copy');
         document.body.removeChild(dummy);
-        alert('代碼已複製！魔法學院傳送門即將開啟。');
     };
 
     const users = ["林同學", "陳同學", "張同學", "王同學", "李同學", "蔡同學", "高同學", "周同學", "吳同學", "趙同學"];
